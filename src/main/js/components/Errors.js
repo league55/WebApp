@@ -1,4 +1,3 @@
-/* @flow */
 import React from 'react';
 import { connect } from 'react-redux';
 
@@ -16,18 +15,7 @@ const NotFound = () => (
   </div>
 );
 
-type Props = {
-  errors: {
-    // error: string,
-    // exception: string,
-    // message: string,
-    // path: string,
-    // timestamp: number,
-    status: number
-  }
-};
-
-const Errors = (props : Props) => {
+const Errors = (props) => {
   switch (props.errors.status) {
     case 500:
       return <ServerError />;
@@ -36,6 +24,10 @@ const Errors = (props : Props) => {
     default:
       return <NotFound />;
   }
+};
+
+Errors.propTypes = {
+  errors: React.PropTypes.object
 };
 
 /* Inject errors state and dispatch() into props */

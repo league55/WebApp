@@ -1,4 +1,3 @@
-/* @flow */
 import React from 'react';
 import { connect } from 'react-redux';
 import { routerContext as RouterType } from 'react-router/PropTypes';
@@ -7,20 +6,7 @@ import axios from 'axios';
 
 import { authenticated } from '../actions';
 
-import type { Router } from '../types';
-
-type State = {
-  authFailed: boolean
-};
-
 class SignIn extends React.Component {
-  context: { router: Router };
-  props: { dispatch: Function, location: Object };
-  state: State;
-
-  usernameInput : HTMLInputElement;
-  passwordInput: HTMLInputElement;
-
   constructor(props) {
     super(props);
     this.state = { authFailed: false };
@@ -97,6 +83,11 @@ class SignIn extends React.Component {
 
 SignIn.contextTypes = {
   router: RouterType.isRequired
+};
+
+SignIn.propTypes = {
+  location: React.PropTypes.object,
+  dispatch: React.PropTypes.func
 };
 
 /* Inject auth state and dispatch() into props */

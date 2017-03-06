@@ -1,4 +1,3 @@
-// @flow
 import React from 'react';
 import { Link } from 'react-router';
 import { connect } from 'react-redux';
@@ -6,16 +5,8 @@ import { routerContext as RouterType } from 'react-router/PropTypes';
 
 import { saveComment } from '../actions';
 
-import type { Router } from '../types';
-
 class AddComment extends React.Component {
-  props: { dispatch: Function };
-  context: { router: Router };
-
-  authorInput : HTMLInputElement;
-  contextInput: HTMLInputElement;
-
-  addComment(author : string, content : string) : void {
+  addComment(author, content) {
     this.props.dispatch(saveComment(author, content));
   }
 
@@ -54,6 +45,10 @@ class AddComment extends React.Component {
 
 AddComment.contextTypes = {
   router: RouterType.isRequired
+};
+
+AddComment.propTypes = {
+  dispatch: React.PropTypes.func
 };
 
 /* Inject dispatch() but no state into props */

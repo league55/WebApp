@@ -1,4 +1,3 @@
-/* @flow */
 /* eslint jsx-a11y/href-no-hash:"off" */
 /* I discourage you from leaving the above disabled - I've only done this as this is a demo app. */
 
@@ -10,21 +9,7 @@ import axios from 'axios';
 
 import { loggedOut } from '../actions';
 
-import type { Auth, Router } from '../types';
-
-type Props = {
-  auth: Auth,
-  onSignOut: Function
-};
-
-type Context = {
-  router: Router
-}
-
 class Navigation extends React.Component {
-  props: Props;
-  context: Context;
-
   handleSignOut() {
     axios.post('/api/signout')
       .then(
@@ -107,6 +92,12 @@ class Navigation extends React.Component {
 Navigation.contextTypes = {
   router: RouterType.isRequired
 };
+
+Navigation.propTypes = {
+  onSignOut: React.PropTypes.func,
+  auth: React.PropTypes.object
+};
+
 
 /* Inject auth state and a dispatch() wrapper into props */
 export default connect(

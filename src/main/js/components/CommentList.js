@@ -1,4 +1,3 @@
-/* @flow */
 import React from 'react';
 import { Link } from 'react-router';
 import { connect } from 'react-redux';
@@ -8,20 +7,7 @@ import { refreshComments } from '../actions';
 
 import './CommentList.less';
 
-import type { Dispatch } from '../types';
-
-type Props = {
-  status: string,
-  comments: Array<{
-    id: number,
-    content: string,
-    author: string
-  }>,
-  dispatch: Dispatch
-};
-
 class CommentList extends React.Component {
-  props: Props;
 
   componentDidMount() {
     if (this.props.status === 'stale') {
@@ -49,6 +35,13 @@ class CommentList extends React.Component {
     );
   }
 }
+
+
+CommentList.propTypes = {
+  status: React.PropTypes.string,
+  comments: React.PropTypes.array,
+  dispatch: React.PropTypes.func
+};
 
 function mapStateToProps(state) {
   return {

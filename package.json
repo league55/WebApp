@@ -4,9 +4,9 @@
   "description": "Spring + React + Redux + React Router isomorphic templating application",
   "main": "index.js",
   "scripts": {
-    "build": "flow && NODE_ENV=production webpack",
+    "build": "NODE_ENV=production webpack",
     "compile-renderer": "babel src/main/resources/static/js/render.es6.js -o src/main/resources/static/js/render.js",
-    "debug": "flow && NODE_ENV=debug webpack",
+    "debug": "NODE_ENV=debug webpack",
     "flow": "flow",
     "lint": "eslint --cache . --ext .js --ext .jsx",
     "start": "webpack-dev-server --hot --inline"
