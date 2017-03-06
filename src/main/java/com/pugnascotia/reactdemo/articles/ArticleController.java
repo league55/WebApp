@@ -1,4 +1,4 @@
-package com.pugnascotia.reactdemo.comments;
+package com.pugnascotia.reactdemo.articles;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -15,7 +15,7 @@ import static org.springframework.web.bind.annotation.RequestMethod.GET;
  */
 
 @Controller
-public class CommentController {
+public class ArticleController {
 
     @RequestMapping(value = "/add", method = GET)
     public String index(Model model, HttpServletRequest request) {

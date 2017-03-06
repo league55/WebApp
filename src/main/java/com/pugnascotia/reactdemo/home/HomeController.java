@@ -5,7 +5,7 @@ import java.util.Map;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 
-import com.pugnascotia.reactdemo.comments.CommentRepository;
+import com.pugnascotia.reactdemo.articles.ArticleRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,17 +14,17 @@ import static com.pugnascotia.reactdemo.utils.State.populateModel;
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 
 /**
- * Renders the home page. It loads all the comments in the repository
+ * Renders the home page. It loads all the articles in the repository
  * and passes them to the render context in the same shape that Redux
  * uses.
  */
 @Controller
 public class HomeController {
 
-    private final CommentRepository repository;
+    private final ArticleRepository repository;
 
 	@Inject
-	public HomeController(CommentRepository repository) {
+	public HomeController(ArticleRepository repository) {
 		this.repository = repository;
 	}
 

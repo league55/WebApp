@@ -1,4 +1,4 @@
-package com.pugnascotia.reactdemo.comments;
+package com.pugnascotia.reactdemo.articles;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -9,12 +9,12 @@ import lombok.NoArgsConstructor;
  */
 @Data
 @NoArgsConstructor
-public class Comment {
+public class Article {
 	private Long id;
 	private String author;
 	private String content;
 
-	public Comment(String author, String content) {
+	public Article(String author, String content) {
 		setAuthor(author);
 		setContent(content);
 	}
