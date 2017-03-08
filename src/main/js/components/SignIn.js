@@ -4,7 +4,7 @@ import { routerContext as RouterType } from 'react-router/PropTypes';
 
 import axios from 'axios';
 
-import { authenticated } from '../actions';
+import { authenticated } from '../actions/actions';
 
 class SignIn extends React.Component {
   constructor(props) {

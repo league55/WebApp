@@ -7,6 +7,10 @@
   },
   "rules": {
     "arrow-parens": 0,
+    "object-curly-spacing": "off",
+    "no-use-before-define": "off",
+    "import/no-dynamic-require": "off",
+    "global-require": "off",
     "brace-style": ["error", "stroustrup", { "allowSingleLine": true }],
     "comma-dangle": [2, "never"],
     "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
@@ -16,6 +20,8 @@
     "no-prototype-builtins": 0,
     "no-underscore-dangle": 0,
     "react/forbid-prop-types": 0,
+    "react/prefer-stateless-function": 0,
+    "react/jsx-space-before-closing": 0,
     "react/no-unescaped-entities": 0,
     "react/sort-comp": 0
   }

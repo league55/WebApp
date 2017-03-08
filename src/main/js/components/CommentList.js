@@ -3,7 +3,7 @@ import { Link } from 'react-router';
 import { connect } from 'react-redux';
 
 import Comment from './Comment';
-import { refreshComments } from '../actions';
+import { refreshComments } from '../actions/actions';
 
 import './CommentList.less';
 

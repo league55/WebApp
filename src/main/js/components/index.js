@@ -4,3 +4,4 @@ export { default as CommentList } from './CommentList';
 export { default as Errors } from './Errors';
 export { default as Navigation } from './Navigation';
 export { default as SignIn } from './SignIn';
+export { default as Composer } from './composer/Composer';

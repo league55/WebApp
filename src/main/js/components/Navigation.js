@@ -7,7 +7,7 @@ import { routerContext as RouterType } from 'react-router/PropTypes';
 import { connect } from 'react-redux';
 import axios from 'axios';
 
-import { loggedOut } from '../actions';
+import { loggedOut } from '../actions/actions';
 
 class Navigation extends React.Component {
   handleSignOut() {
@@ -73,13 +73,14 @@ class Navigation extends React.Component {
               <span className="icon-bar" />
               <span className="icon-bar" />
             </button>
-            <Link to="/" className="navbar-brand">spring-react-boilerplate</Link>
+            <Link to="/" className="navbar-brand">Easy electronics</Link>
           </div>
           <div id="navbar" className="collapse navbar-right navbar-collapse">
             <ul className="nav navbar-nav">
               {this.adminMenu()}
               <li><Link to="/">Home</Link></li>
               <li><Link to="/add">Add Comment</Link></li>
+              <li><Link to="/addArticle">Add Article</Link></li>
               <li>{this.authLink()}</li>
             </ul>
           </div>

@@ -34,12 +34,14 @@ const config = {
         use: [ 'babel-loader' ],
         exclude: /node_modules/
       },
+      {test: /\.(jpe?g|png|gif|svg)$/i, loader: "file-loader"},
       {
         test: /\.(?:css|less)$/,
         loader: ExtractTextPlugin.extract({
           fallbackLoader: 'style-loader',
           loader: 'css-loader!less-loader'
-        })
+        }
+        )
       }
     ]
   },
