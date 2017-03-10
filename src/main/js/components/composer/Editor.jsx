@@ -7,13 +7,18 @@ class Editor extends React.Component {
     return (
       <Row>
         <Col md={8}>
-          <textarea name="Text1" cols="100" rows="20"/>
+          <div className="editable, form-control" contentEditable="true" onBlur={this.props.onBlur}>
+            Editable text...
+          </div>
         </Col>
       </Row>
     );
   }
 }
 
+Editor.propTypes = {
+  onBlur: React.PropTypes.func
+};
 
 const mapStateToProps = (state, ownProps) => ({
   mode: state.mode,

@@ -7,7 +7,7 @@ function switchMode(mode) {
   };
 }
 
-export default function saveAndSwitchMode(mode) {
+export function saveAndSwitchMode(mode) {
   return (dispatch, getState) => {
     //  dispatch(saveArticle(article));
 
@@ -17,10 +17,10 @@ export default function saveAndSwitchMode(mode) {
   };
 }
 
-//     fasf   function saveArticle(article) {
-//         return {
-//     type: actionTypes.ADD_ARTICLE,
-//      article: article
-//    };
-//  }
+export function saveArticle(article) {
+  return {
+    type: actionTypes.ADD_ARTICLE,
+    article
+  };
+}
 

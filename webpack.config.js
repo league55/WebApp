@@ -26,28 +26,34 @@ const config = {
     rules: [
       {
         test: /\.jsx?$/,
-        use: [ 'eslint-loader' ],
-        enforce: 'pre'
+        use: ['eslint-loader'],
+        enforce: 'pre',
+        exclude: /node_modules/
       },
       {
         test: /\.jsx?$/,
-        use: [ 'babel-loader' ],
+        use: ['babel-loader'],
         exclude: /node_modules/
       },
-      {test: /\.(jpe?g|png|gif|svg)$/i, loader: "file-loader"},
+      {
+        test: /\.(jpe?g|png|gif|svg)$/i,
+        loader: "file-loader",
+        exclude: /node_modules/
+      },
       {
         test: /\.(?:css|less)$/,
         loader: ExtractTextPlugin.extract({
-          fallbackLoader: 'style-loader',
-          loader: 'css-loader!less-loader'
-        }
+            fallbackLoader: 'style-loader',
+            loader: 'css-loader!less-loader',
+            exclude: /node_modules/
+          }
         )
       }
     ]
   },
   plugins: [
     new webpack.LoaderOptionsPlugin({
-      minimize: true,
+      minimize: false,
       debug: false
     }),
     new ExtractTextPlugin({
