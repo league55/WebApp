@@ -14,7 +14,7 @@ const config = {
   entry: './index',
   context: SRC,
   resolve: {
-    extensions: ['.js', '.jsx', '.less']
+    extensions: ['.js', '.jsx', '.scss']
   },
   output: {
     path: DEST,
@@ -41,10 +41,10 @@ const config = {
         exclude: /node_modules/
       },
       {
-        test: /\.(?:css|less)$/,
+        test: /\.(?:css|scss)$/,
         loader: ExtractTextPlugin.extract({
             fallbackLoader: 'style-loader',
-            loader: 'css-loader!less-loader',
+            loader: 'css-loader!sass-loader',
             exclude: /node_modules/
           }
         )
