@@ -1,5 +1,4 @@
 import React from 'react';
-import {connect} from 'react-redux';
 import { Row, Col} from 'react-bootstrap';
 import Editor from 'draft-js-plugins-editor';
 

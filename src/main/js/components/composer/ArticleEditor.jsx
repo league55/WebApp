@@ -2,8 +2,8 @@ import React from 'react';
 import {Row, Col} from 'react-bootstrap';
 import {RichUtils} from 'draft-js';
 import Editor from 'draft-js-plugins-editor';
-import ArticleEditora from './ArticleEditor.css';
-import EditorStyle from '../../../css/Editor.scss';
+import ArticleEditora from './ArticleEditor.css'; // eslint-disable-line
+import EditorStyle from '../../../css/Editor.scss'; // eslint-disable-line
 import {InlineStyleControls} from './InlineStyleControls';
 import {BlockStyleControls} from './BlockStyleControls';
 
@@ -61,7 +61,7 @@ class ArticleEditor extends React.Component {
   }
 
   render() {
-    let editorState = this.props.editorState;
+    const editorState = this.props.editorState;
     return (<div>
       <Row>
         <Col md={12}>
@@ -112,4 +112,8 @@ function getBlockStyle(block) {
   }
 }
 
+ArticleEditor.propTypes = {
+  editorState: React.PropTypes.object,
+  onEditorStateUpdate: React.PropTypes.func,
+};
 export default ArticleEditor;

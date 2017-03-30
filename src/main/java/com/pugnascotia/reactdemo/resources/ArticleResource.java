@@ -1,8 +1,10 @@
-package com.pugnascotia.reactdemo.articles;
+package com.pugnascotia.reactdemo.resources;
 
 import java.util.List;
 import javax.inject.Inject;
 
+import com.pugnascotia.reactdemo.model.Article;
+import com.pugnascotia.reactdemo.repositories.ArticleRepository;
 import com.pugnascotia.reactdemo.utils.Functions;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.RequestBody;

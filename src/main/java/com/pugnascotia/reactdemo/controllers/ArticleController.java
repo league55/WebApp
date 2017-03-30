@@ -1,4 +1,4 @@
-package com.pugnascotia.reactdemo.articles;
+package com.pugnascotia.reactdemo.controllers;
 
 import javax.servlet.http.HttpServletRequest;
 

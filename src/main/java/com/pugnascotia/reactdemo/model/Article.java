@@ -1,4 +1,4 @@
-package com.pugnascotia.reactdemo.articles;
+package com.pugnascotia.reactdemo.model;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;

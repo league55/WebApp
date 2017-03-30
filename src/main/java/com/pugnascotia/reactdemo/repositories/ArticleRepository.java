@@ -1,4 +1,6 @@
-package com.pugnascotia.reactdemo.articles;
+package com.pugnascotia.reactdemo.repositories;
+
+import com.pugnascotia.reactdemo.model.Article;
 
 public interface ArticleRepository {
 

@@ -1,11 +1,11 @@
-package com.pugnascotia.reactdemo.home;
+package com.pugnascotia.reactdemo.controllers;
 
 import java.util.HashMap;
 import java.util.Map;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 
-import com.pugnascotia.reactdemo.articles.ArticleRepository;
+import com.pugnascotia.reactdemo.repositories.ArticleRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;

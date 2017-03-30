@@ -1,10 +1,10 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import { Row, Col, Jumbotron, Button} from 'react-bootstrap';
+import {EditorState} from 'draft-js';
 import ModeSwitcher from './ModeSwitcher';
 import ArticleEditor from './ArticleEditor';
 import Preview from './Preview';
-import {EditorState} from 'draft-js';
 import {EDITING, PREVIEW} from '../../constants/actionTypes';
 import {saveAndSwitchMode, saveArticle} from '../../actions/articles';
 
@@ -25,7 +25,7 @@ class Composer extends React.Component {
 
   render() {
     const {mode} = this.props;
-    let articleUnderEdition = this.props.article;
+    const articleUnderEdition = this.props.article;
     const onClickSave = () => {
       this.props.handleClick(articleUnderEdition);
     };
@@ -34,7 +34,8 @@ class Composer extends React.Component {
         <Col md={10} mdOffset={2}>
           <Jumbotron className="text-center ">
             <ModeSwitcher activeKey={mode} handleSelect={this.props.handleSelect}/>
-            {mode === EDITING && <ArticleEditor editorState={this.state.editorState} onEditorStateUpdate={this.onEditorStateUpdate}/>}
+            {mode === EDITING &&
+            <ArticleEditor editorState={this.state.editorState} onEditorStateUpdate={this.onEditorStateUpdate}/>}
             {mode === PREVIEW && <Preview editorState={this.state.editorState}/>}
             <Row>
               <Col md={3} mdOffset={9}>

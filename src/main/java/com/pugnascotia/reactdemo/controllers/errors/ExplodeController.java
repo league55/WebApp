@@ -1,4 +1,4 @@
-package com.pugnascotia.reactdemo.errors;
+package com.pugnascotia.reactdemo.controllers.errors;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;

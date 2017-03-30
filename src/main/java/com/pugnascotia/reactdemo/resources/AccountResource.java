@@ -1,4 +1,4 @@
-package com.pugnascotia.reactdemo.account;
+package com.pugnascotia.reactdemo.resources;
 
 import java.util.Map;
 
