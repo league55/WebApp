@@ -25,9 +25,8 @@ class Composer extends React.Component {
 
   render() {
     const {mode} = this.props;
-    const articleUnderEdition = this.props.article;
     const onClickSave = () => {
-      this.props.handleClick(articleUnderEdition);
+      this.props.handleClick(this.state.editorState);
     };
     return (
       <Row>
@@ -53,13 +52,11 @@ class Composer extends React.Component {
 Composer.propTypes = {
   handleSelect: React.PropTypes.func,
   handleClick: React.PropTypes.func,
-  mode: React.PropTypes.string,
-  article: React.PropTypes.object
+  mode: React.PropTypes.string
 };
 
 const mapStateToProps = (state) => ({
-  mode: state.composer.mode,
-  article: state.articles.articlesList[1]
+  mode: state.composer.mode
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -67,7 +64,11 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(saveAndSwitchMode(mode));
   },
   handleClick(article) {
-    dispatch(saveArticle(article));
+    const articleBody = {
+      id: Math.floor(Math.random() * 100),
+      content: article
+    };
+    dispatch(saveArticle(articleBody));
   }
 });
 
