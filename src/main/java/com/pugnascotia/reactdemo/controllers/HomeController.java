@@ -31,7 +31,7 @@ public class HomeController {
     @RequestMapping(value = "/", method = GET)
     public String index(Model model, HttpServletRequest request) {
 		populateModel(model, request);
-        model.addAttribute("comments", getCommentsState());
+//        model.addAttribute("comments", getCommentsState());
         return "index";
     }
 

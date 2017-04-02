@@ -55,9 +55,9 @@ public class UserController {
 		logger.info("Creating User : {}", user);
 
 		if (userService.isUserExist(user)) {
-			logger.error("Unable to create. A User with name {} already exist", user.getName());
+			logger.error("Unable to create. A User with name {} already exist", user.getUserName());
 			return new ResponseEntity(new CustomErrorType("Unable to create. A User with name " +
-				user.getName() + " already exist."), HttpStatus.CONFLICT);
+				user.getUserName() + " already exist."), HttpStatus.CONFLICT);
 		}
 		userService.saveUser(user);
 
@@ -80,7 +80,8 @@ public class UserController {
 				HttpStatus.NOT_FOUND);
 		}
 
-		currentUser.setName(user.getName());
+		currentUser.setFullName(user.getFullName());
+		currentUser.setUserName(user.getUserName());
 		currentUser.setAge(user.getAge());
 
 		userService.updateUser(currentUser);

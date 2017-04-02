@@ -61,3 +61,10 @@
 .RichEditor-activeButton {
   color: #5890ff;
 }
+
+.--noFloat {
+  float: none;
+}
+.--noBoxShadow {
+  box-shadow: none;
+}

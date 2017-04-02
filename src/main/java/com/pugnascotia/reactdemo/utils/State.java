@@ -39,12 +39,15 @@ public final class State {
 	 * Returns a representation of the user's authentication state, in the shape expected by the client.
 	 */
 	public static Map<String, Object> getAuthState(HttpServletRequest request) {
-		Optional<List<String>> optionalRoles = getRoles(request);
+		Optional<Authentication> authentication = getAuthentication(request);
+		Optional<List<String>> optionalRoles = getRoles(authentication);
+		String userName = authentication.isPresent() ? authentication.get().getName() : "";
 
 		return optionalRoles.map(roles -> {
 			Map<String, Object> authState = new HashMap<>();
 			authState.put("signedIn", !roles.contains("ROLE_ANONYMOUS"));
 			authState.put("roles", roles);
+			authState.put("userName", userName);
 
 			return authState;
 		})
@@ -61,8 +64,8 @@ public final class State {
 	 * Return a list of the current user's roles. If they are not authenticated then they will
 	 * have "ROLE_ANONYMOUS".
 	 */
-	private static Optional<List<String>> getRoles(HttpServletRequest request) {
-		return getAuthentication(request)
+	private static Optional<List<String>> getRoles(Optional<Authentication> authentication) {
+		return authentication
 			.map(a -> Functions.map(a.getAuthorities(), GrantedAuthority::getAuthority));
 	}
 

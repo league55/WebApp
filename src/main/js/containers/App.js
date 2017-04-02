@@ -14,6 +14,8 @@ const App = () => (
       <Match exactly pattern="/" component={CommentList} />
       <MatchWhenAuthorized pattern="/add" component={AddComment} />
       <MatchWhenAuthorized pattern="/addArticle" component={Composer} />
+      <MatchWhenAuthorized pattern="/user" component={CommentList} />
+      <MatchWhenAuthorized pattern="/user/all" component={CommentList} />
       <Match pattern="/signin" component={SignIn} />
       <Miss component={Errors} />
     </div>

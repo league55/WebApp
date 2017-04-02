@@ -21,8 +21,13 @@ public class UserServiceImpl implements UserService {
 		return userRepository.findOne(id);
 	}
 
-	public User findByName(String name) {
-		return userRepository.findByName(name);
+	@Override
+	public User findByUsername(String userName) {
+		return userRepository.findByUserName(userName);
+	}
+
+	public User findByFullName(String name) {
+		return userRepository.findByFullName(name);
 	}
 
 	public void saveUser(User user) {
@@ -46,7 +51,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	public boolean isUserExist(User user) {
-		return findByName(user.getName()) != null;
+		return findByUsername(user.getUserName()) != null;
 	}
 
 }

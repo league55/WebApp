@@ -1,29 +1,5 @@
 import { AUTHENTICATED, LOGGED_OUT } from './../actions/actions';
 
-const defaultState = { status: 'stale', data: [] };
-//
-// const ADD_COMMENT = 'ADD_COMMENT';
-// const COMMENTS_REFRESHED = 'COMMENTS_REFRESHED';
-
-export function commentsReducer(state = defaultState, action) {
-  switch (action.type) {
-    // case ADD_COMMENT:
-    //   return {
-    //     status: state.status,
-    //     data: state.data.concat(action.comment)
-    //   };
-    //
-    // case COMMENTS_REFRESHED:
-    //   return {
-    //     status: 'loaded',
-    //     data: action.comments
-    //   };
-
-    default:
-      return state;
-  }
-}
-
 const defaultAuthState = { signedIn: false, roles: [] };
 
 export function authReducer(state = defaultAuthState, action) {

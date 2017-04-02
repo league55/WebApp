@@ -2,12 +2,12 @@
 /* I discourage you from leaving the above disabled - I've only done this as this is a demo app. */
 
 import React from 'react';
-import { Link } from 'react-router';
-import { routerContext as RouterType } from 'react-router/PropTypes';
-import { connect } from 'react-redux';
+import {Link} from 'react-router';
+import {routerContext as RouterType} from 'react-router/PropTypes';
+import {connect} from 'react-redux';
 import axios from 'axios';
 
-import { loggedOut } from '../actions/actions';
+import {loggedOut} from '../actions/actions';
 
 class Navigation extends React.Component {
   handleSignOut() {
@@ -31,13 +31,33 @@ class Navigation extends React.Component {
           role="button"
           aria-haspopup="true"
           aria-expanded="false"
-        >Admin <span className="caret" /></a>
+        >Admin <span className="caret"/></a>
         <ul className="dropdown-menu">
           <li><a href="#">Action</a></li>
           <li><a href="#">Another action</a></li>
           <li><a href="#">Something else here</a></li>
-          <li role="separator" className="divider" />
+          <li role="separator" className="divider"/>
           <li><a href="#">Separated link</a></li>
+        </ul>
+      </li>)
+      : null;
+  }
+
+  userMenu() {
+    return this.props.auth.roles.some(r => r === 'ROLE_ADMIN' || r === 'ROLE_USER')
+      ? (<li className="dropdown">
+        <a
+          href="#"
+          className="dropdown-toggle"
+          data-toggle="dropdown"
+          role="button"
+          aria-haspopup="true"
+          aria-expanded="false"
+        >{this.props.auth.userName} <span className="caret"/></a>
+        <ul className="dropdown-menu">
+          <li><Link to="/user">{this.props.auth.userName}</Link></li>
+          <li role="separator" className="divider"/>
+          <li><a href="/user/all">AllPosts</a></li>
         </ul>
       </li>)
       : null;
@@ -49,7 +69,7 @@ class Navigation extends React.Component {
     }
 
     return (
-      <div className="navbar-form" style={{ paddingLeft: 0, paddingRight: 0 }}>
+      <div className="navbar-form" style={{paddingLeft: 0, paddingRight: 0}}>
         <button className="btn btn-link" onClick={() => this.handleSignOut()}>Sign Out</button>
       </div>
     );
@@ -69,9 +89,9 @@ class Navigation extends React.Component {
               aria-controls="navbar"
             >
               <span className="sr-only">Toggle navigation</span>
-              <span className="icon-bar" />
-              <span className="icon-bar" />
-              <span className="icon-bar" />
+              <span className="icon-bar"/>
+              <span className="icon-bar"/>
+              <span className="icon-bar"/>
             </button>
             <Link to="/" className="navbar-brand">Easy electronics</Link>
           </div>
@@ -79,7 +99,7 @@ class Navigation extends React.Component {
             <ul className="nav navbar-nav">
               {this.adminMenu()}
               <li><Link to="/">Home</Link></li>
-              <li><Link to="/add">Add Comment</Link></li>
+              {this.userMenu()}
               <li><Link to="/addArticle">Add Article</Link></li>
               <li>{this.authLink()}</li>
             </ul>
@@ -102,6 +122,6 @@ Navigation.propTypes = {
 
 /* Inject auth state and a dispatch() wrapper into props */
 export default connect(
-  state => ({ auth: state.auth }),
-  dispatch => ({ onSignOut: () => dispatch(loggedOut()) })
+  state => ({auth: state.auth}),
+  dispatch => ({onSignOut: () => dispatch(loggedOut())})
 )(Navigation);

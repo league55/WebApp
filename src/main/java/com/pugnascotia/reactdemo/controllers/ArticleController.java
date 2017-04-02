@@ -6,6 +6,7 @@ import com.pugnascotia.reactdemo.model.User;
 import com.pugnascotia.reactdemo.services.ArticleDataService;
 import com.pugnascotia.reactdemo.services.UserService;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,7 +61,7 @@ public class ArticleController {
 	public ResponseEntity<?> createArticle(@RequestBody RequestWrapper wrapper, UriComponentsBuilder ucBuilder) {
 		logger.info("Creating Article : {}", wrapper.getArticle().getTitle());
 		Article article = wrapper.getArticle();
-		User author = userService.findById(wrapper.getUserId());
+		User author = userService.findByUsername(wrapper.getUserName());
 
 		article.setAuthor(author);
 		articleDataService.saveArticle(article);
@@ -81,7 +82,7 @@ public class ArticleController {
 
 
 		if (currentArticle == null) {
-			User author = userService.findById(wrapper.getUserId());
+			User author = userService.findByUsername(wrapper.getUserName());
 			newArticle.setAuthor(author);
 			logger.error("Article was not fount, updating existing", id);
 			articleDataService.saveArticle(newArticle);
@@ -116,8 +117,10 @@ public class ArticleController {
 //        return "index";
 //    }
 	@Data
-	class RequestWrapper {
+	public static class RequestWrapper {
+		public RequestWrapper(){}
+
 		private Article article;
-		private Long userId;
+		private String userName;
 	}
 }

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Row, Col} from 'react-bootstrap';
+import { Row, Col, Label} from 'react-bootstrap';
 import Editor from 'draft-js-plugins-editor';
 
 class Preview extends React.Component {
@@ -7,11 +7,22 @@ class Preview extends React.Component {
     return (
       <Row>
         <Col md={12}>
-          <div className={`editable, form-control EditorStyle`}>
+          <div className="message">
+            <Row>
+              <Col md={7} mdOffset={1}>
+                <h1>{this.props.title}</h1>
+              </Col>
+              <Col md={1} mdOffset={1}>
+                <h3><Label bsStyle="info">{new Date().toLocaleDateString()}</Label></h3>
+              </Col>
+            </Row>
+            <hr/>
+            <Col md={9} className=" --noFloat">
             <Editor
-              editorState={this.props.editorState}
-              readOnly
-            />
+              editorState={this.props.editorState} readOnly
+              onChange={() => {
+              }}/>
+            </Col>
           </div>
         </Col>
       </Row>
@@ -21,7 +32,8 @@ class Preview extends React.Component {
 
 
 Preview.propTypes = {
-  editorState: React.PropTypes.object
+  editorState: React.PropTypes.object,
+  title: React.PropTypes.string
 };
 
 export default Preview;

@@ -24,8 +24,12 @@ public class User implements Serializable{
 	private Long userId;
 
 	@NotEmpty
-	@Column(name="NAME", nullable=false)
-	private String name;
+	@Column(name="USER_NAME", nullable=false, unique = true)
+	private String userName;
+
+	@NotEmpty
+	@Column(name="FULL_NAME", nullable=false)
+	private String fullName;
 
 	@Column(name="AGE", nullable=false)
 	private Integer age;
@@ -34,11 +38,13 @@ public class User implements Serializable{
 	@JsonIgnoreProperties("author")
 	private List<Article> articles;
 
+
 	@Override
 	public String toString() {
 		return "User{" +
 			"userId=" + userId +
-			", name='" + name + '\'' +
+			", userName='" + userName + '\'' +
+			", fullName='" + fullName + '\'' +
 			", age=" + age +
 			'}';
 	}
@@ -49,12 +55,13 @@ public class User implements Serializable{
 		if (o == null || getClass() != o.getClass()) return false;
 		User user = (User) o;
 		return Objects.equals(userId, user.userId) &&
-			Objects.equals(name, user.name) &&
+			Objects.equals(userName, user.userName) &&
+			Objects.equals(fullName, user.fullName) &&
 			Objects.equals(age, user.age);
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(userId, name, age);
+		return Objects.hash(userId, userName, fullName, age);
 	}
 }

@@ -18,15 +18,12 @@ export function saveAndSwitchMode(mode) {
   };
 }
 
-export function saveArticle(article) {
+export function saveArticle(article, author) {
   return (dispatch => {
-    const copy = Object.assign(article, {
-      title: "Tielawef"
-    });
-    ArticlesDataApi.saveArticle(copy)
-      .then(dispatch({
+    ArticlesDataApi.saveArticle(article, author)
+      .then((response) => dispatch({
         type: actionTypes.ADD_ARTICLE,
-        copy
+        article
       }));
   });
 }

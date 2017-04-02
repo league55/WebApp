@@ -1,5 +1,5 @@
 import React from 'react';
-import {Row, Col} from 'react-bootstrap';
+import {Row, Col, FormControl, FormGroup} from 'react-bootstrap';
 import {RichUtils} from 'draft-js';
 import Editor from 'draft-js-plugins-editor';
 import ArticleEditora from './ArticleEditor.css'; // eslint-disable-line
@@ -22,6 +22,8 @@ class ArticleEditor extends React.Component {
     this.onTab = (e) => this._onTab(e);
     this.toggleBlockType = (type) => this._toggleBlockType(type);
     this.toggleInlineStyle = (style) => this._toggleInlineStyle(style);
+    this.getValidationState = (style) => this._getValidationState(style);
+    this.handleTitleChange = (style) => this._handleTitleChange(style);
   }
 
   _handleKeyCommand(command) {
@@ -60,10 +62,38 @@ class ArticleEditor extends React.Component {
     );
   }
 
+  _handleTitleChange(e) {
+    this.props.handleTitleChange(e.target.value);
+  }
+
+  _getValidationState() {
+    if (!this.props.title) return null;
+    const length = this.props.title.length;
+    if (length > 10) return 'success';
+    else if (length > 5) return 'warning';
+    return 'error';
+  }
+
   render() {
     const editorState = this.props.editorState;
     return (<div>
       <Row>
+        <Row>
+          <Col md={8} mdOffset={1}>
+            <FormGroup
+              controlId="formBasicText"
+              validationState={this.getValidationState()}
+            >
+              <FormControl
+                type="text"
+                value={this.props.title}
+                placeholder="Заголовок"
+                onChange={this.handleTitleChange}
+              />
+              <FormControl.Feedback />
+            </FormGroup>
+          </Col>
+        </Row>
         <Col md={12}>
           <BlockStyleControls
             editorState={editorState}
@@ -115,5 +145,7 @@ function getBlockStyle(block) {
 ArticleEditor.propTypes = {
   editorState: React.PropTypes.object,
   onEditorStateUpdate: React.PropTypes.func,
+  title: React.PropTypes.string,
+  handleTitleChange: React.PropTypes.func,
 };
 export default ArticleEditor;

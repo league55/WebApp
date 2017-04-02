@@ -26,3 +26,11 @@ ModeSwitcher.propTypes = {
 
 
 export default ModeSwitcher;
+
+/**
+ * DROPDOWN OPTION
+ * <DropdownButton bsStyle={'default'} title={'Режим'} onSelect={this.props.handleSelect} noCaret>
+ <MenuItem eventKey={EDITING}>Редактирование</MenuItem>
+ <MenuItem eventKey={PREVIEW}>Предпросмотр</MenuItem>
+ </DropdownButton>
+ */

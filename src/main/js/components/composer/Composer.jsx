@@ -1,6 +1,6 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import { Row, Col, Jumbotron, Button} from 'react-bootstrap';
+import {Row, Col, Jumbotron, Button, ButtonGroup} from 'react-bootstrap';
 import {EditorState, convertToRaw} from 'draft-js';
 import ModeSwitcher from './ModeSwitcher';
 import ArticleEditor from './ArticleEditor';
@@ -15,30 +15,45 @@ class Composer extends React.Component {
     this.state = this.state ? this.state : {editorState: EditorState.createEmpty()};
 
     this.onEditorStateUpdate = this._onEditorStateUpdate.bind(this);
+    this.handleTitleChange = this._handleTitleChange.bind(this);
   }
 
   _onEditorStateUpdate(editorState) {
-    this.setState({
-      editorState
-    });
+    this.setState(Object.assign(this.state, {editorState: editorState})); // eslint-disable-line
+  }
+
+  _handleTitleChange(title) {
+    this.setState(Object.assign(this.state, {title: title})); // eslint-disable-line
   }
 
   render() {
     const {mode} = this.props;
     const onClickSave = () => {
-      this.props.handleClick(this.state.editorState);
+      this.props.handleClick(Object.assign(this.state, {author: {userName: this.props.userName}}));
     };
     return (
       <Row>
-        <Col md={10} mdOffset={2}>
-          <Jumbotron className="text-center ">
+        <Col md={12}>
+          <Jumbotron>
             <ModeSwitcher activeKey={mode} handleSelect={this.props.handleSelect}/>
             {mode === EDITING &&
-            <ArticleEditor editorState={this.state.editorState} onEditorStateUpdate={this.onEditorStateUpdate}/>}
-            {mode === PREVIEW && <Preview editorState={this.state.editorState}/>}
+            <ArticleEditor
+              editorState={this.state.editorState}
+              onEditorStateUpdate={this.onEditorStateUpdate}
+              handleTitleChange={this.handleTitleChange}
+              title={this.state.title}
+            />}
+            {mode === PREVIEW && <Preview editorState={this.state.editorState} title={this.state.title}/>}
             <Row>
-              <Col md={3} mdOffset={9}>
-                <Button bsStyle="primary" onClick={onClickSave}>Save</Button>
+              <Col md={6} mdOffset={6}>
+                <ButtonGroup justified>
+                  <ButtonGroup>
+                    <Button onClick={onClickSave}>Сохранить</Button>
+                  </ButtonGroup>
+                  <ButtonGroup>
+                    <Button bsStyle="primary" onClick={onClickSave}>Запостить</Button>
+                  </ButtonGroup>
+                </ButtonGroup>
               </Col>
             </Row>
           </Jumbotron>
@@ -52,11 +67,13 @@ class Composer extends React.Component {
 Composer.propTypes = {
   handleSelect: React.PropTypes.func,
   handleClick: React.PropTypes.func,
+  userName: React.PropTypes.string,
   mode: React.PropTypes.string
 };
 
 const mapStateToProps = (state) => ({
-  mode: state.composer.mode
+  mode: state.composer.mode,
+  userName: state.auth.userName
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -64,12 +81,13 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(saveAndSwitchMode(mode));
   },
   handleClick(article) {
-    const contentState = article.getCurrentContent();
+    const contentState = article.editorState.getCurrentContent();
     const articleBody = {
-      id: Math.floor(Math.random() * 100),
-      content: convertToRaw(contentState)
+      title: article.title,
+      content: convertToRaw(contentState),
+      status: "FINISHED"
     };
-    dispatch(saveArticle(articleBody));
+    dispatch(saveArticle(articleBody, article.author));
   }
 });
 
