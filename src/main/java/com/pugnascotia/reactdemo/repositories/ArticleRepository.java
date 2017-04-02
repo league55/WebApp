@@ -1,12 +1,12 @@
 package com.pugnascotia.reactdemo.repositories;
 
 import com.pugnascotia.reactdemo.model.Article;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-public interface ArticleRepository {
+@Repository
+public interface ArticleRepository extends JpaRepository<Article, Long> {
 
-	Iterable<Article> findAll();
+	Iterable<Article> findByTitle(String title);
 
-	Article save(Article article);
-
-	Article find(Long id);
 }

@@ -5,6 +5,8 @@ export default function articles(state = [], action) {
     case actionTypes.ADD_ARTICLE:
       state.push(action.article);
       return state;
+    case actionTypes.ARTICLES_REFRESHED:
+      return action.articles.map(each => Object.assign(each, {content: JSON.parse(each.content)}));
     default:
       return state;
   }

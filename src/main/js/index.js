@@ -41,7 +41,7 @@ if (typeof window !== 'undefined') {
  * @returns string the rendered page
  */
 // eslint-disable-next-line import/prefer-default-export
-export function renderApp(path : string, state : Object) {
+export function renderApp(path, state) {
   const store = createStore(state);
 
   // first create a context for <ServerRouter>, it's where we keep the

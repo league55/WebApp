@@ -1,24 +1,22 @@
 import React from 'react';
-import { Link } from 'react-router';
-import { connect } from 'react-redux';
+import {Link} from 'react-router';
+import {connect} from 'react-redux';
 import Editor from 'draft-js-plugins-editor';
-
-
-import Comment from './Comment';
-import { refreshComments } from '../actions/actions';
+import {EditorState, convertFromRaw} from 'draft-js';
+import {refreshArticles} from '../actions/actions';
 
 import './CommentList.scss';
 
 class CommentList extends React.Component {
 
   componentDidMount() {
-    if (this.props.status === 'stale') {
-      this.props.dispatch(refreshComments());
+    if (this.props.articles.length === 0) {
+      this.props.dispatch(refreshArticles());
     }
   }
 
   handleRefreshComments() {
-    this.props.dispatch(refreshComments());
+    this.props.dispatch(refreshArticles());
   }
 
   render() {
@@ -30,29 +28,32 @@ class CommentList extends React.Component {
           {' '}
           <button className="btn btn-default" onClick={() => this.handleRefreshComments()}>Refresh</button>
         </div>
-        { this.props.comments.length === 0
-          ? <p>No comments yet! You could add one&hellip;?</p>
-          : this.props.comments.map(each => <Comment author={each.author} content={each.content} key={each.id}/>) }
         { !this.props.articles || this.props.articles.length === 0
           ? <p>No articles yet! You could add one&hellip;?</p>
-          : this.props.articles.map(each => <Editor editorState={each.content} readOnly key={each.id} />) }
+          : this.props.articles.map(each => CommentList.getArticlePreview(each)) }
       </div>
     );
+  }
+
+  static getArticlePreview(each) {
+    return (<div className="message">
+      <h3>{each.title}</h3>
+      <Editor
+        editorState={EditorState.createWithContent(convertFromRaw(each.content))} readOnly key={each.id}
+        onChange={() => {
+        }}/>
+    </div>);
   }
 }
 
 
 CommentList.propTypes = {
-  status: React.PropTypes.string,
-  comments: React.PropTypes.array,
   articles: React.PropTypes.array,
   dispatch: React.PropTypes.func
 };
 
 function mapStateToProps(state) {
   return {
-    status: state.comments.status,
-    comments: state.comments.data,
     articles: state.articles
   };
 }

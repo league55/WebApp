@@ -6,25 +6,9 @@ spring:
   profiles: local,default
 datasource:
   sampleapp:
-    url: jdbc:h2:~/db
-    username: user
-    password: user
-    driverClassName: org.h2.Driver
-    defaultSchema:
-    maxPoolSize: 10
-    hibernate:
-      hbm2ddl.method: update
-      show_sql: true
-      format_sql: true
-      dialect: org.hibernate.dialect.H2Dialect
----
-spring:
-  profiles: prod
-datasource:
-  sampleapp:
-    url: jdbc:mysql://localhost:3306/websystique
-    username: myuser
-    password: mypassword
+    url: jdbc:mysql://localhost:3306/electro
+    username: sqluser
+    password: sqluserpw
     driverClassName: com.mysql.jdbc.Driver
     defaultSchema:
     maxPoolSize: 20

@@ -44,7 +44,7 @@
     "react-router-redux": "^4.0.6",
     "react-transform-hmr": "^1.0.4",
     "draft-js": "0.10.0",
-    "draft-js-plugins-editor": "2.0.0-beta1",
+    "draft-js-plugins-editor": "2.0.0-beta10",
     "redux": "^3.6.0",
     "redux-thunk": "^2.1.0",
     "react-bootstrap": "^0.30.7",

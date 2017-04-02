@@ -17,11 +17,10 @@ import java.util.List;
 @RestController
 @RequestMapping("/user")
 public class UserController {
-	public static final Logger logger = LoggerFactory.getLogger(UserController.class);
+	private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 
 	@Autowired
-	private
-	UserService userService;
+	private	UserService userService;
 
 	// -------------------Retrieve All Users---------------------------------------------
 
@@ -63,7 +62,7 @@ public class UserController {
 		userService.saveUser(user);
 
 		HttpHeaders headers = new HttpHeaders();
-		headers.setLocation(ucBuilder.path("/api/user/{id}").buildAndExpand(user.getId()).toUri());
+		headers.setLocation(ucBuilder.path("/api/user/{id}").buildAndExpand(user.getUserId()).toUri());
 		return new ResponseEntity<String>(headers, HttpStatus.CREATED);
 	}
 
@@ -83,7 +82,6 @@ public class UserController {
 
 		currentUser.setName(user.getName());
 		currentUser.setAge(user.getAge());
-		currentUser.setSalary(user.getSalary());
 
 		userService.updateUser(currentUser);
 		return new ResponseEntity<>(currentUser, HttpStatus.OK);

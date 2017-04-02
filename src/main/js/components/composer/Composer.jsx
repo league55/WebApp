@@ -1,7 +1,7 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import { Row, Col, Jumbotron, Button} from 'react-bootstrap';
-import {EditorState} from 'draft-js';
+import {EditorState, convertToRaw} from 'draft-js';
 import ModeSwitcher from './ModeSwitcher';
 import ArticleEditor from './ArticleEditor';
 import Preview from './Preview';
@@ -64,9 +64,10 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(saveAndSwitchMode(mode));
   },
   handleClick(article) {
+    const contentState = article.getCurrentContent();
     const articleBody = {
       id: Math.floor(Math.random() * 100),
-      content: article
+      content: convertToRaw(contentState)
     };
     dispatch(saveArticle(articleBody));
   }

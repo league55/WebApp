@@ -1,4 +1,5 @@
 import * as actionTypes from '../constants/actionTypes';
+import ArticlesDataApi from "../api/ArticlesDataApi";
 
 function switchMode(mode) {
   return {
@@ -18,9 +19,15 @@ export function saveAndSwitchMode(mode) {
 }
 
 export function saveArticle(article) {
-  return {
-    type: actionTypes.ADD_ARTICLE,
-    article
-  };
+  return (dispatch => {
+    const copy = Object.assign(article, {
+      title: "Tielawef"
+    });
+    ArticlesDataApi.saveArticle(copy)
+      .then(dispatch({
+        type: actionTypes.ADD_ARTICLE,
+        copy
+      }));
+  });
 }
 

@@ -1,39 +1,21 @@
 import axios from 'axios';
+import {ARTICLES_REFRESHED} from "../constants/actionTypes";
 
-export const ADD_COMMENT = 'ADD_COMMENT';
-export const COMMENTS_REFRESHED = 'COMMENTS_REFRESHED';
 export const AUTHENTICATED = 'AUTHENTICATED';
 export const LOGGED_OUT = 'LOGGED_OUT';
 
-export function addComment(comment) {
+export function articlesRefreshed(articles) {
   return {
-    type: ADD_COMMENT,
-    comment
+    type: ARTICLES_REFRESHED,
+    articles
   };
 }
 
-export function saveComment(author, content) {
+export function refreshArticles() {
   return dispatch => {
-    axios.post('/api/articles', { author, content })
+    axios.get('/article')
       .then(
-        success => dispatch(addComment(success.data)),
-        failure => console.error(failure)
-      );
-  };
-}
-
-export function commentsRefreshed(comments) {
-  return {
-    type: COMMENTS_REFRESHED,
-    comments
-  };
-}
-
-export function refreshComments() {
-  return dispatch => {
-    axios.get('/api/articles')
-      .then(
-        success => dispatch(commentsRefreshed(success.data)),
+        success => dispatch(articlesRefreshed(success.data)),
         failure => console.log(failure)
       );
   };

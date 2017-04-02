@@ -6,7 +6,7 @@ import articles from './articles';
 /* Combine the application's reducers */
 const reducer = combineReducers(Object.assign({}, {
   auth: authReducer,
-  comments: commentsReducer,
+  // comments: commentsReducer,
   errors: errorsReducer,
   composer,
   articles
