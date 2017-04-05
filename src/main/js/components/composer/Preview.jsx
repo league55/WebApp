@@ -1,5 +1,5 @@
 import React from 'react';
-import { Row, Col, Label} from 'react-bootstrap';
+import {Row, Col, Label} from 'react-bootstrap';
 import Editor from 'draft-js-plugins-editor';
 
 class Preview extends React.Component {
@@ -18,10 +18,9 @@ class Preview extends React.Component {
             </Row>
             <hr/>
             <Col md={9} className=" --noFloat">
-            <Editor
-              editorState={this.props.editorState} readOnly
-              onChange={() => {
-              }}/>
+              <Editor
+                editorState={this.props.editorState} readOnly
+                onChange={() => {}}/>
             </Col>
           </div>
         </Col>

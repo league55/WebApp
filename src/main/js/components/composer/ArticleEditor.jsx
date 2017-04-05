@@ -2,6 +2,7 @@ import React from 'react';
 import {Row, Col, FormControl, FormGroup} from 'react-bootstrap';
 import {RichUtils} from 'draft-js';
 import Editor from 'draft-js-plugins-editor';
+import ImageUploader from './ImageUploader'; // eslint-disable-line
 import ArticleEditora from './ArticleEditor.css'; // eslint-disable-line
 import EditorStyle from '../../../css/Editor.scss'; // eslint-disable-line
 import {InlineStyleControls} from './InlineStyleControls';
@@ -103,6 +104,7 @@ class ArticleEditor extends React.Component {
             editorState={editorState}
             onToggle={this.toggleInlineStyle}
           />
+          <ImageUploader/>
           <div className={`editable, form-control EditorStyle`} onClick={this.focus}>
             <Editor
               editorState={editorState}
@@ -118,6 +120,7 @@ class ArticleEditor extends React.Component {
           </div>
         </Col>
       </Row>
+
     </div>);
   }
 

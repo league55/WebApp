@@ -21,7 +21,7 @@ export function saveAndSwitchMode(mode) {
 export function saveArticle(article, author) {
   return (dispatch => {
     ArticlesDataApi.saveArticle(article, author)
-      .then((response) => dispatch({
+      .then(() => dispatch({
         type: actionTypes.ADD_ARTICLE,
         article
       }));
