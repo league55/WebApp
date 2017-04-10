@@ -1,6 +1,7 @@
 import React from 'react';
 import {Modal, Button} from 'react-bootstrap';
 import Dropzone from 'react-dropzone';
+import axios from 'axios';
 import ArticleEditora from './ArticleEditor.css'; // eslint-disable-line
 
 
@@ -28,6 +29,10 @@ class ImageUploader extends React.Component {
 
 
   _onDrop(files) {
+    const data = new FormData();
+    data.append('file', files[0]);
+    axios.post('/static', data);
+
     this.setState(Object.assign({}, this.state, {files: this.state.files.concat(files)}));
   }
 
@@ -49,7 +54,7 @@ class ImageUploader extends React.Component {
               </Dropzone>
               {this.state.files.length > 0 ? <div>
                   <h2>Загружаю файлы... {this.state.files.length}</h2>
-                  <div>{this.state.files.map((file) => <img src={file.preview} role="presentation"/>)}</div>
+                    <div>{this.state.files.map((file) => <img src={file.preview} role="presentation"/>)}</div>
                 </div> : null}
             </Modal.Body>
             <Modal.Footer>

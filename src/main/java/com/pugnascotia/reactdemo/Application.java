@@ -1,11 +1,10 @@
 package com.pugnascotia.reactdemo;
 
-import com.pugnascotia.reactdemo.config.JpaConfiguration;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.Import;
+import org.springframework.context.annotation.ComponentScan;
 
-@Import(JpaConfiguration.class)
+@ComponentScan
 @SpringBootApplication
 public class Application {
 

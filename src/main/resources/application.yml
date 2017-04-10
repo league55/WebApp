@@ -7,13 +7,14 @@ spring:
 datasource:
   sampleapp:
     url: jdbc:mysql://localhost:3306/electro
-    username: sqluser
-    password: sqluserpw
+    username: root
+    password: rfhnjy
     driverClassName: com.mysql.jdbc.Driver
-    defaultSchema:
+    defaultSchema: electro
     maxPoolSize: 20
     hibernate:
       hbm2ddl.method: update
       show_sql: true
       format_sql: true
       dialect: org.hibernate.dialect.MySQLDialect
+rootPath: /home/maks/IdeaProjects/assets/
