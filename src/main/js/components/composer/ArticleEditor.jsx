@@ -1,12 +1,42 @@
 import React from 'react';
 import {Row, Col, FormControl, FormGroup} from 'react-bootstrap';
-import {RichUtils} from 'draft-js';
-import Editor from 'draft-js-plugins-editor';
+import {RichUtils, AtomicBlockUtils, Entity} from 'draft-js';
+import Editor, { composeDecorators } from 'draft-js-plugins-editor';
+import createImagePlugin from 'draft-js-image-plugin';
+import 'draft-js-image-plugin/lib/plugin.css'; // eslint-disable-line import/no-unresolved
+import createAlignmentPlugin from 'draft-js-alignment-plugin';
+import createFocusPlugin from 'draft-js-focus-plugin';
+import createResizeablePlugin from 'draft-js-resizeable-plugin';
+import createBlockDndPlugin from 'draft-js-drag-n-drop-plugin';
 import ImageUploader from './ImageUploader'; // eslint-disable-line
 import ArticleEditora from './ArticleEditor.css'; // eslint-disable-line
 import EditorStyle from '../../../css/Editor.scss'; // eslint-disable-line
 import {InlineStyleControls} from './InlineStyleControls';
 import {BlockStyleControls} from './BlockStyleControls';
+
+const focusPlugin = createFocusPlugin();
+const resizeablePlugin = createResizeablePlugin();
+const blockDndPlugin = createBlockDndPlugin();
+const alignmentPlugin = createAlignmentPlugin();
+
+const decorator = composeDecorators(
+  resizeablePlugin.decorator,
+  alignmentPlugin.decorator,
+  focusPlugin.decorator,
+  blockDndPlugin.decorator
+);
+
+const imagePlugin = createImagePlugin({ decorator, type: "atomic" });
+
+const plugins = [
+  blockDndPlugin,
+  focusPlugin,
+  alignmentPlugin,
+  resizeablePlugin,
+  imagePlugin
+];
+
+const { AlignmentTool } = alignmentPlugin;
 
 class ArticleEditor extends React.Component {
 
@@ -18,8 +48,9 @@ class ArticleEditor extends React.Component {
 
     this.handleKeyCommand = this._handleKeyCommand.bind(this);
     this.onChange = this._onChange.bind(this);
-    this.focus = () => this.refs.editor.focus();
+    this.handleImagesAdd = this._handleImagesAdd.bind(this);
 
+    this.focus = () => this.refs.editor.focus();
     this.onTab = (e) => this._onTab(e);
     this.toggleBlockType = (type) => this._toggleBlockType(type);
     this.toggleInlineStyle = (style) => this._toggleInlineStyle(style);
@@ -75,6 +106,15 @@ class ArticleEditor extends React.Component {
     return 'error';
   }
 
+  _handleImagesAdd(images) {
+    let editorState = this.props.editorState;
+    images.forEach(image => {
+      editorState = AtomicBlockUtils.insertAtomicBlock(
+        editorState, Entity.create('image', 'IMMUTABLE', {src: `static/${image.name}`, progress: -1}), ' ');
+    });
+    this.onChange(editorState);
+  }
+
   render() {
     const editorState = this.props.editorState;
     return (<div>
@@ -104,8 +144,9 @@ class ArticleEditor extends React.Component {
             editorState={editorState}
             onToggle={this.toggleInlineStyle}
           />
-          <ImageUploader/>
-          <div className={`editable, form-control EditorStyle`} onClick={this.focus}>
+          <ImageUploader handleImagesAdd={this.handleImagesAdd}/>
+          <div className={`editable, form-control EditorStyle`} >
+            <div className="EditorStyles.editor editor" onClick={this.focus}>
             <Editor
               editorState={editorState}
               blockStyleFn={getBlockStyle}
@@ -115,8 +156,10 @@ class ArticleEditor extends React.Component {
               ref="editor"
               onTab={this.onTab}
               spellCheck
-              plugins={[]}
+              plugins={plugins}
             />
+            <AlignmentTool />
+            </div>
           </div>
         </Col>
       </Row>

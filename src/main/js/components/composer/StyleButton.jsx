@@ -1,4 +1,5 @@
 import React from 'react';
+import {Button} from 'react-bootstrap';
 
 class StyleButton extends React.Component {
   constructor() {
@@ -10,9 +11,9 @@ class StyleButton extends React.Component {
   }
 
   render() {
-    let className = 'RichEditor-styleButton';
+    let bsStyle = "default";
     if (this.props.active) {
-      className += ' RichEditor-activeButton';
+      bsStyle = "primary";
     }
 
     StyleButton.propTypes = {
@@ -23,9 +24,9 @@ class StyleButton extends React.Component {
     };
 
     return (
-      <span className={className} onMouseDown={this.onToggle}>
+      <Button bsStyle={bsStyle} onClick={this.onToggle}>
         {this.props.label}
-      </span>
+      </Button>
     );
   }
 }

@@ -1,7 +1,6 @@
 import React from 'react';
-import { Link } from 'react-router';
+import Link from 'react-router';
 import { connect } from 'react-redux';
-import { routerContext as RouterType } from 'react-router/PropTypes';
 
 import { saveComment } from '../actions/actions';
 
@@ -42,10 +41,6 @@ class AddComment extends React.Component {
       </form>);
   }
 }
-
-AddComment.contextTypes = {
-  router: RouterType.isRequired
-};
 
 AddComment.propTypes = {
   dispatch: React.PropTypes.func

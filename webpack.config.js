@@ -14,7 +14,7 @@ const config = {
   entry: './index',
   context: SRC,
   resolve: {
-    extensions: ['.js', '.jsx', '.scss']
+    extensions: ['.js', '.jsx', '.scss', 'css']
   },
   output: {
     path: DEST,
@@ -41,11 +41,10 @@ const config = {
         exclude: /node_modules/
       },
       {
-        test: /\.(?:css|scss)$/,
+        test: /\.(?:css|scss|plugin\.css)$/,
         loader: ExtractTextPlugin.extract({
-            fallbackLoader: 'style-loader',
-            loader: 'css-loader!sass-loader',
-            exclude: /node_modules/
+            fallback: 'style-loader',
+            use: 'css-loader!sass-loader'
           }
         )
       }
@@ -58,8 +57,7 @@ const config = {
     }),
     new ExtractTextPlugin({
       filename: 'bundle.css',
-      allChunks: true,
-      disabled: TARGET === 'build' || TARGET === 'debug'
+      allChunks: true
     })
   ],
   devServer: {

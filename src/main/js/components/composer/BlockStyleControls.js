@@ -1,4 +1,5 @@
 import React from 'react';
+import {ButtonToolbar} from 'react-bootstrap';
 import StyleButton from './StyleButton';
 
 const BLOCK_TYPES = [
@@ -28,7 +29,7 @@ export const BlockStyleControls = (props) => {
   };
 
   return (
-    <div className="RichEditor-controls">
+    <ButtonToolbar className="ButtonToolbar--align--big">
       {BLOCK_TYPES.map((type) =>
         <StyleButton
           key={type.label}
@@ -38,6 +39,6 @@ export const BlockStyleControls = (props) => {
           style={type.style}
         />
       )}
-    </div>
+    </ButtonToolbar>
   );
 };

@@ -1,4 +1,5 @@
 import React from 'react';
+import {ButtonToolbar} from 'react-bootstrap';
 import StyleButton from './StyleButton';
 
 export const InlineStyleControls = (props) => {
@@ -10,7 +11,7 @@ export const InlineStyleControls = (props) => {
   };
 
   return (
-    <div className="RichEditor-controls">
+    <ButtonToolbar className="ButtonToolbar--align--small">
       {INLINE_STYLES.map(type =>
         <StyleButton
           key={type.label}
@@ -20,7 +21,7 @@ export const InlineStyleControls = (props) => {
           style={type.style}
         />
       )}
-    </div>
+    </ButtonToolbar>
   );
 };
 

@@ -12,14 +12,11 @@ class ImageUploader extends React.Component {
     this.onDrop = this._onDrop.bind(this);
     this.close = this._close.bind(this);
     this.open = this._open.bind(this);
-    this.state = this.getInitialState();
-  }
-
-  getInitialState() {
-    return {showModal: false, files: []};
+    this.state = {showModal: false, files: []};
   }
 
   _close() {
+    this.props.handleImagesAdd(this.state.files);
     this.setState(Object.assign({}, this.state, {showModal: false}));
   }
 
@@ -54,7 +51,9 @@ class ImageUploader extends React.Component {
               </Dropzone>
               {this.state.files.length > 0 ? <div>
                   <h2>Загружаю файлы... {this.state.files.length}</h2>
-                    <div>{this.state.files.map((file) => <img src={file.preview} role="presentation"/>)}</div>
+                    <div>
+                      {this.state.files.map((file, i) => <img src={file.preview} role="presentation" key={i}/>)}
+                    </div>
                 </div> : null}
             </Modal.Body>
             <Modal.Footer>
@@ -67,9 +66,8 @@ class ImageUploader extends React.Component {
   }
 }
 
-// ImageUploader.propTypes = {
-//   editorState: React.PropTypes.any,
-//   onToggle: React.PropTypes.func
-// };
+ImageUploader.propTypes = {
+  handleImagesAdd: React.PropTypes.func
+};
 
 export default ImageUploader;

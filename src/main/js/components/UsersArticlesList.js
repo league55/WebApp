@@ -1,5 +1,6 @@
 import React from 'react';
-import {Link} from 'react-router';
+import Link from 'react-router';
+
 import {connect} from 'react-redux';
 import {Row, Col, Label} from 'react-bootstrap';
 import Editor from 'draft-js-plugins-editor';
