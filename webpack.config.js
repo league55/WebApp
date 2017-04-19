@@ -41,7 +41,7 @@ const config = {
         exclude: /node_modules/
       },
       {
-        test: /\.(?:css|scss|plugin\.css)$/,
+        test: /\.(?:css|scss)$/,
         loader: ExtractTextPlugin.extract({
             fallback: 'style-loader',
             use: 'css-loader!sass-loader'

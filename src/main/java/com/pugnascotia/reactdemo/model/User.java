@@ -1,8 +1,6 @@
 package com.pugnascotia.reactdemo.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.NotEmpty;
@@ -35,7 +33,6 @@ public class User implements Serializable{
 	private Integer age;
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "author", cascade = CascadeType.ALL)
-	@JsonIgnoreProperties("author")
 	private List<Article> articles;
 
 

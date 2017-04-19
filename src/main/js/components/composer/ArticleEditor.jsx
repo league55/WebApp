@@ -3,7 +3,6 @@ import {Row, Col, FormControl, FormGroup} from 'react-bootstrap';
 import {RichUtils, AtomicBlockUtils, Entity} from 'draft-js';
 import Editor, { composeDecorators } from 'draft-js-plugins-editor';
 import createImagePlugin from 'draft-js-image-plugin';
-import 'draft-js-image-plugin/lib/plugin.css'; // eslint-disable-line import/no-unresolved
 import createAlignmentPlugin from 'draft-js-alignment-plugin';
 import createFocusPlugin from 'draft-js-focus-plugin';
 import createResizeablePlugin from 'draft-js-resizeable-plugin';
@@ -13,6 +12,8 @@ import ArticleEditora from './ArticleEditor.css'; // eslint-disable-line
 import EditorStyle from '../../../css/Editor.scss'; // eslint-disable-line
 import {InlineStyleControls} from './InlineStyleControls';
 import {BlockStyleControls} from './BlockStyleControls';
+
+require("draft-js-image-plugin/lib/plugin.css"); // eslint-disable-line import/no-unresolved
 
 const focusPlugin = createFocusPlugin();
 const resizeablePlugin = createResizeablePlugin();
@@ -26,13 +27,13 @@ const decorator = composeDecorators(
   blockDndPlugin.decorator
 );
 
-const imagePlugin = createImagePlugin({ decorator, type: "atomic" });
+const imagePlugin = createImagePlugin({ decorator });
 
 const plugins = [
   blockDndPlugin,
   focusPlugin,
-  alignmentPlugin,
   resizeablePlugin,
+  alignmentPlugin,
   imagePlugin
 ];
 
@@ -46,12 +47,10 @@ class ArticleEditor extends React.Component {
       editorState: props.editorState
     };
 
-    this.handleKeyCommand = this._handleKeyCommand.bind(this);
     this.onChange = this._onChange.bind(this);
+    this.handleKeyCommand = this._handleKeyCommand.bind(this);
     this.handleImagesAdd = this._handleImagesAdd.bind(this);
-
-    this.focus = () => this.refs.editor.focus();
-    this.onTab = (e) => this._onTab(e);
+    this.focus = () => this.focus.bind(this);
     this.toggleBlockType = (type) => this._toggleBlockType(type);
     this.toggleInlineStyle = (style) => this._toggleInlineStyle(style);
     this.getValidationState = (style) => this._getValidationState(style);
@@ -69,11 +68,6 @@ class ArticleEditor extends React.Component {
 
   _onChange(editorState) {
     this.props.onEditorStateUpdate(editorState);
-  }
-
-  _onTab(e) {
-    const maxDepth = 4;
-    this.onChange(RichUtils.onTab(e, this.props.editorState, maxDepth));
   }
 
   _toggleBlockType(blockType) {
@@ -106,6 +100,10 @@ class ArticleEditor extends React.Component {
     return 'error';
   }
 
+  focus() {
+    this.editor.focus();
+  }
+
   _handleImagesAdd(images) {
     let editorState = this.props.editorState;
     images.forEach(image => {
@@ -116,7 +114,7 @@ class ArticleEditor extends React.Component {
   }
 
   render() {
-    const editorState = this.props.editorState;
+    const { editorState } = this.props;
     return (<div>
       <Row>
         <Row>
@@ -145,47 +143,23 @@ class ArticleEditor extends React.Component {
             onToggle={this.toggleInlineStyle}
           />
           <ImageUploader handleImagesAdd={this.handleImagesAdd}/>
-          <div className={`editable, form-control EditorStyle`} >
-            <div className="EditorStyles.editor editor" onClick={this.focus}>
+            <div className="editorStyles.editor" onClick={this.focus}>
             <Editor
               editorState={editorState}
-              blockStyleFn={getBlockStyle}
-              customStyleMap={styleMap}
-              onChange={this.onChange}
               handleKeyCommand={this.handleKeyCommand}
-              ref="editor"
-              onTab={this.onTab}
+              onChange={this.onChange}
+              ref={(element) => { this.editor = element; }}
               spellCheck
               plugins={plugins}
             />
-            <AlignmentTool />
+              <AlignmentTool />
             </div>
-          </div>
         </Col>
       </Row>
 
     </div>);
   }
 
-}
-
-// Custom overrides for "code" style.
-const styleMap = {
-  CODE: {
-    backgroundColor: 'rgba(0, 0, 0, 0.05)',
-    fontFamily: '"Inconsolata", "Menlo", "Consolas", monospace',
-    fontSize: 16,
-    padding: 2,
-  },
-};
-
-function getBlockStyle(block) {
-  switch (block.getType()) {
-    case 'blockquote':
-      return 'RichEditor-blockquote';
-    default:
-      return null;
-  }
 }
 
 ArticleEditor.propTypes = {
