@@ -21,6 +21,16 @@ export function refreshArticles() {
   };
 }
 
+export function loadPageArticles(page = 0) {
+  return dispatch => {
+    axios.get(`/article?page=${page}`)
+      .then(
+        success => dispatch(articlesRefreshed(success.data)),
+        failure => console.log(failure)
+      );
+  };
+}
+
 export function authenticated(authData) {
   return {
     type: AUTHENTICATED,

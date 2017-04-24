@@ -13,6 +13,7 @@ const App = () => (
 
     <div className="container">
       <Match exactly pattern="/" component={LatestArticlesList} />
+      <Match pattern="/latest/:page" component={LatestArticlesList} />
       <MatchWhenAuthorized pattern="/add" component={AddComment} />
       <MatchWhenAuthorized pattern="/addArticle" component={Composer} />
       <MatchWhenAuthorized pattern="/user" component={LatestArticlesList} />

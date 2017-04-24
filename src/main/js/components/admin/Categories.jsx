@@ -1,6 +1,9 @@
 import React from "react";
 import axios from "axios";
-import { Table, Button, ButtonToolbar } from 'react-bootstrap';
+import { Table, Button, ButtonToolbar, FormControl } from 'react-bootstrap';
+import CommentList from "../CommentList.scss"; // eslint-disable-line
+// import Input from "react-toolbox/components/input/Input.d";
+// import { Switch }from "react-toolbox/lib/switch";
 
 class Categories extends React.Component {
 
@@ -26,13 +29,13 @@ class Categories extends React.Component {
             failure => console.log(failure)
       );
   }
+  // {/*<td><Switch checked={cat.isActive} onChange={axios.post(`/categories/mode/${cat.categoryId}`, {})}/></td>*/}
 
   static getCatRow(cat) {
     return (<tr key={cat.categoryName}>
       <td><Button bsStyle="success" bsSize="xs">+</Button></td>
       <td>{cat.categoryName}</td>
       <td>{cat.timesUsed}</td>
-      <td>{cat.isActive}</td>
       <td><ButtonToolbar><Button bsStyle="warning" onClick={() => axios.post('categories/mode/cat.categoryId')}>disable
       </Button>
       <Button bsStyle="danger" onClick={() => axios.delete('/categories', cat.categoryId)}>delete</Button>
@@ -61,7 +64,7 @@ class Categories extends React.Component {
       <td>Название</td>
       <td>Использована раз</td>
       <td>Активная</td>
-      <td></td>
+      <td/>
       </tr>
       </thead>
     );
@@ -69,11 +72,11 @@ class Categories extends React.Component {
 
   static getAddCategoryRow() {
     return (<tr>
-      <td>Название</td>
+      <td className="td-input"><FormControl className="table-input"/></td>
       <td/>
-      <td>активная</td>
-      <td></td>
-      <td><Button bsSize="xs" bsStyle="success" onClick={() => axios.post('/categories', {})}>Сохранить</Button></td>
+      <td>0</td>
+      <td className="td-input">sasdf</td>
+      <td><Button bsStyle="success" onClick={() => axios.post('/categories', {})}>Сохранить</Button></td>
     </tr>);
   }
 }

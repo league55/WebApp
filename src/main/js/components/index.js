@@ -1,5 +1,4 @@
-export { default as AddComment } from './AddComment';
-export { default as LatestArticlesList } from './LatestArticlesList';
+export { default as LatestArticlesList } from './List/LatestArticlesList';
 export { default as UsersArticlesList } from './UsersArticlesList';
 export { default as Errors } from './Errors';
 export { default as Navigation } from './Navigation';
