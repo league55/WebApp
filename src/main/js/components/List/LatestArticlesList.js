@@ -2,11 +2,11 @@ import React from 'react';
 import {Link} from 'react-router';
 import {connect} from 'react-redux';
 import {Row, Col, Label} from 'react-bootstrap';
-import Editor from 'draft-js-plugins-editor';
 import {EditorState, convertFromRaw} from 'draft-js';
 import {loadPageArticles} from '../../actions/actions';
 
 import '../CommentList.scss';
+import RichEditor from './RichEditor';
 import PaginationBlock from "./PaginationBlock";
 
 class LatestArticlesList extends React.Component {
@@ -23,7 +23,7 @@ class LatestArticlesList extends React.Component {
   }
 
   handleRefreshComments() {
-    this.props.dispatch(loadPageArticles());
+    this.props.dispatch(loadPageArticles(0));
   }
 
   render() {
@@ -33,7 +33,7 @@ class LatestArticlesList extends React.Component {
         <button className="btn btn-default" onClick={() => this.handleRefreshComments()}>Refresh</button>
         { !this.props.articles || this.props.articles.length === 0
           ? <p> Пока ничего нет :( Стань первым ? </p>
-          : this.props.articles.map(each => LatestArticlesList.getArticlePreview(each)) }
+          : this.props.articles.map((each, i) => LatestArticlesList.getArticlePreview(each, i)) }
 
         {this.getPaginationBlock()}
       </div>
@@ -41,7 +41,7 @@ class LatestArticlesList extends React.Component {
   }
 
   static getArticlePreview(each) {
-    return (<div className="message">
+    return (<div className="message" key={each.modifyDate + each.articleId}>
       <Row>
         <Col md={8} mdOffset={1}>
           <h1>{each.title}</h1>
@@ -51,17 +51,20 @@ class LatestArticlesList extends React.Component {
         </Col>
       </Row>
       <hr/>
-      <Editor
-        editorState={EditorState.createWithContent(convertFromRaw(each.content))} readOnly
-        key={each.title + each.articleId}
-        onChange={() => {
-        }}/>
-      <Link to={`/article/${each.articleId}`} bsStyle="info" className="btn btn-info">Подробнее</Link>
+      <RichEditor
+        key={`editor${each.modifyDate}${each.articleId}`}
+        editorState={EditorState.createWithContent(convertFromRaw(each.content))}
+        readOnly/>
+      <Link
+        to={`/article/${each.articleId}`}
+        key={`${each.modifyDate}_LINK`}
+        bsStyle="info"
+        className="btn btn-info">Подробнее</Link>
     </div>);
   }
 
   getPaginationBlock() {
-    return <PaginationBlock currentPage={this.props.params.page}/>;
+    return <PaginationBlock clickMore={() => this.props.dispatch(loadPageArticles(this.props.articles.length))}/>;
   }
 
 }

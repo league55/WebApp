@@ -9,6 +9,7 @@
     "arrow-parens": 0,
     "object-curly-spacing": "off",
     "no-use-before-define": "off",
+    "no-case-declarations": "off",
     "comma-dangle": "off",
     "import/no-dynamic-require": "off",
     "import/prefer-default-export": "off",

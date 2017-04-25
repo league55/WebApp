@@ -1,39 +1,27 @@
 import React from 'react';
-import {Link} from 'react-router';
+import {ButtonGroup, Button, Row, Col} from "react-bootstrap";
+import "./Latest.scss";
 
 class PaginationBlock extends React.Component {
 
-  constructor() {
-    super();
-
-    this.getButtons = this.getButtons.bind(this);
-  }
-
   render() {
     return (
-      <div className="Footer">
-        { this.getButtons() }
-      </div>);
-  }
-
-  getButtons() {
-    const pagesAmount = 6;
-    const buttons = [];
-    const current = this.props.currentPage;
-    if (pagesAmount > 5) {
-      for (let i = 0; i < 5; i++) {
-        const className = "btn btn-primary";
-        buttons.push((<Link to={`/latest/${i}`} bsSize="xs" className={className} key={"links" + i}>{i}</Link>));
-      }
-      // buttons.push(<span>...</span>);
-      buttons.push(<Link to={`/latest/${pagesAmount}`} bsSize="xs">{pagesAmount}</Link>);
-    }
-    return buttons;
+      <Row className="Footer">
+        <Col md={3} mdOffset={4} xs={12}>
+          <ButtonGroup vertical block>
+            <Button
+              bsStyle="primary"
+              onClick={this.props.clickMore}>
+              +Больше
+            </Button>
+          </ButtonGroup>
+        </Col>
+      </Row>);
   }
 }
 
 PaginationBlock.propTypes = {
-  currentPage: React.PropTypes.string
+  clickMore: React.PropTypes.func
 };
 
 export default PaginationBlock;

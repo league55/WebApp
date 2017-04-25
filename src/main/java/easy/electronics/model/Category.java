@@ -1,13 +1,21 @@
 package easy.electronics.model;
 
-import lombok.Getter;
-import lombok.Setter;
-import org.hibernate.validator.constraints.NotEmpty;
-
-import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
 @Table(name="CATEGORIES")
@@ -23,11 +31,10 @@ public class Category implements Serializable{
 	@Column(name = "CATEGORY_NAME", unique = true)
 	private String categoryName;
 
-	@NotEmpty
 	@Column(name="TIMES_USED")
-	private Integer timesUsed;
+	private Integer timesUsed = 0;
 
-	@NotEmpty
+	@NotNull
 	@Column(name="IS_ACTIVE", nullable=false)
 	private Boolean isActive;
 
