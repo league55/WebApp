@@ -1,11 +1,9 @@
-import axios from "axios";
+import CategoriesApi from "../api/CategoriesApi";
 import {CATEGORIES_LOADED} from "../constants/actionTypes";
 
 export function loadCategories() {
   return (dispatch) => {
-    axios.get('/categories')
-      .then((categories) => {
-        dispatch({type: CATEGORIES_LOADED, categories: categories.data})
-      });
+    CategoriesApi.getCategories()
+      .then((categories) => dispatch({type: CATEGORIES_LOADED, categories: categories.data}));
   };
 }
