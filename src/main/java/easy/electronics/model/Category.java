@@ -4,12 +4,11 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
@@ -23,10 +22,8 @@ import lombok.Setter;
 public class Category implements Serializable{
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "CATEGORY_ID")
-	private Long categoryId;
-
+	@Column(name = "CATEGORY_ID", nullable = false)
+	private String categoryId;
 
 	@Column(name = "CATEGORY_NAME", unique = true)
 	private String categoryName;
@@ -35,12 +32,11 @@ public class Category implements Serializable{
 	private Integer timesUsed = 0;
 
 	@NotNull
-	@Column(name="IS_ACTIVE", nullable=false)
+	@Column(name="IS_ACTIVE")
 	private Boolean isActive;
 
-	@OneToMany
-	@JoinColumn(name="PARENT_CATEGORY_NAME", referencedColumnName = "CATEGORY_NAME")
-	private List<SubCategory> subCategories;
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "categoryId", cascade = CascadeType.ALL)
+	private List<Article> articles;
 
 
 	@Override

@@ -1,15 +1,20 @@
 /* eslint jsx-a11y/href-no-hash:"off" */
-/* I discourage you from leaving the above disabled - I've only done this as this is a demo app. */
 
 import React from 'react';
 import {Link} from 'react-router';
 import {routerContext as RouterType} from 'react-router/PropTypes';
+import shallowCompare from 'react-addons-shallow-compare';
 import {connect} from 'react-redux';
 import axios from 'axios';
 
 import {loggedOut} from '../actions/actions';
 
 class Navigation extends React.Component {
+
+  shouldComponentUpdate(nextProps, nextState) {
+    return shallowCompare(this, nextProps, nextState);
+  }
+
   handleSignOut() {
     axios.post('/api/signout')
       .then(

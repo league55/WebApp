@@ -1,8 +1,14 @@
 import React from 'react';
+import shallowCompare from 'react-addons-shallow-compare';
 import { Row, Col, Nav, NavItem} from 'react-bootstrap';
 import {EDITING, PREVIEW} from '../../constants/actionTypes';
 
 class ModeSwitcher extends React.Component {
+
+  shouldComponentUpdate(nextProps, nextState) {
+    return shallowCompare(this, nextProps, nextState);
+  }
+
   render() {
     const activeKey = this.props.activeKey ? this.props.activeKey : EDITING;
     return (

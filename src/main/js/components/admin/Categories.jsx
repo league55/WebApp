@@ -10,11 +10,11 @@ class Categories extends React.Component {
   constructor() {
     super();
     this.state = {
-      newCategory: {categoryName: "", isActive: false},
-      newSubCategory: {subCategoryName: "", isActive: false}
+      newCategory: {categoryId: "", categoryName: "", isActive: false}
     };
     this.loadCategories = this.loadCategories.bind(this);
     this.toggleNewCategoryActive = this.toggleNewCategoryActive.bind(this);
+    this.toggleNewCategoryId = this.toggleNewCategoryId.bind(this);
     this.toggleNewCategoryName = this.toggleNewCategoryName.bind(this);
     this.getAddCategoryRow = this.getAddCategoryRow.bind(this);
     this.categoryAPI = this.categoryAPI.bind(this);
@@ -24,9 +24,20 @@ class Categories extends React.Component {
     this.loadCategories();
   }
 
+  toggleNewCategoryId(e) {
+    this.setState(Object.assign(this.state, {
+      newCategory: {
+        categoryId: e.target.value,
+        categoryName: this.state.newCategory.categoryName,
+        isActive: this.state.newCategory.isActive
+      }
+    }));
+  }
+
   toggleNewCategoryName(e) {
     this.setState(Object.assign(this.state, {
       newCategory: {
+        categoryId: this.state.newCategory.categoryId,
         categoryName: e.target.value,
         isActive: this.state.newCategory.isActive
       }
@@ -54,6 +65,7 @@ class Categories extends React.Component {
   toggleNewCategoryActive() {
     this.setState(Object.assign(this.state, {
       newCategory: {
+        categoryId: this.state.newCategory.categoryId,
         categoryName: this.state.newCategory.categoryName,
         isActive: !this.state.newCategory.isActive
       }
@@ -77,6 +89,7 @@ class Categories extends React.Component {
   getCatRow(cat) {
     return (<tr key={cat.categoryName}>
       <td><Button bsStyle="success" bsSize="xs">+</Button></td>
+      <td>{cat.categoryId}</td>
       <td>{cat.categoryName}</td>
       <td>{cat.timesUsed}</td>
       <td><Checkbox checked={cat.isActive}/></td>
@@ -108,6 +121,7 @@ class Categories extends React.Component {
       <thead>
       <tr>
         <td>+</td>
+        <td>id (короткое название латиницей)</td>
         <td>Название</td>
         <td>Использована раз</td>
         <td>Активная</td>
@@ -120,6 +134,7 @@ class Categories extends React.Component {
   getAddCategoryRow() {
     return (<tr>
       <td/>
+      <td className="td-input"><FormControl className="table-input" onChange={this.toggleNewCategoryId}/></td>
       <td className="td-input"><FormControl className="table-input" onChange={this.toggleNewCategoryName}/></td>
       <td>0</td>
       <td className="td-input"><Checkbox onChange={this.toggleNewCategoryActive}/></td>

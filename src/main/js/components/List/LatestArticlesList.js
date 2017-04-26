@@ -1,6 +1,7 @@
 import React from 'react';
 import {Link} from 'react-router';
 import {connect} from 'react-redux';
+import shallowCompare from 'react-addons-shallow-compare';
 import {Row, Col, Label} from 'react-bootstrap';
 import {EditorState, convertFromRaw} from 'draft-js';
 import {loadPageArticles} from '../../actions/actions';
@@ -14,6 +15,10 @@ class LatestArticlesList extends React.Component {
   constructor() {
     super();
     this.getPaginationBlock = this.getPaginationBlock.bind(this);
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    return shallowCompare(this, nextProps, nextState);
   }
 
   componentDidMount() {
@@ -41,13 +46,13 @@ class LatestArticlesList extends React.Component {
   }
 
   static getArticlePreview(each) {
-    return (<div className="message" key={each.modifyDate + each.articleId}>
+    return (<div className="message well" key={each.modifyDate + each.articleId}>
       <Row>
         <Col md={8} mdOffset={1}>
           <h1>{each.title}</h1>
         </Col>
         <Col md={1} mdOffset={1}>
-          <h3><Label bsStyle="info">{each.createDate}</Label></h3>
+          <h4><Label bsStyle="info">{each.createDate}</Label></h4>
         </Col>
       </Row>
       <hr/>

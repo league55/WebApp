@@ -1,6 +1,7 @@
 import React from 'react';
 import {Row, Col} from 'react-bootstrap';
 import Editor, {composeDecorators} from 'draft-js-plugins-editor';
+import shallowCompare from 'react-addons-shallow-compare';
 import createImagePlugin from 'draft-js-image-plugin';
 import createAlignmentPlugin from 'draft-js-alignment-plugin';
 import createFocusPlugin from 'draft-js-focus-plugin';
@@ -36,6 +37,11 @@ const plugins = [
 
 
 class RichEditor extends React.Component {
+
+  shouldComponentUpdate(nextProps, nextState) {
+    return shallowCompare(this, nextProps, nextState);
+  }
+
   render() {
     const {editorState} = this.props;
     return (<div>

@@ -1,4 +1,4 @@
-import { AUTHENTICATED, LOGGED_OUT } from './../actions/actions';
+import { AUTHENTICATED, LOGGED_OUT } from './../constants/actionTypes';
 
 const defaultAuthState = { signedIn: false, roles: [] };
 

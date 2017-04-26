@@ -1,8 +1,5 @@
 import axios from 'axios';
-import {ARTICLES_REFRESHED} from "../constants/actionTypes";
-
-export const AUTHENTICATED = 'AUTHENTICATED';
-export const LOGGED_OUT = 'LOGGED_OUT';
+import {ARTICLES_REFRESHED, AUTHENTICATED, LOGGED_OUT} from "../constants/actionTypes";
 
 export function articlesRefreshed(articles) {
   return {
