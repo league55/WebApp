@@ -8,6 +8,7 @@
   "rules": {
     "arrow-parens": 0,
     "object-curly-spacing": "off",
+    "arrow-body-style": "off",
     "no-use-before-define": "off",
     "no-case-declarations": "off",
     "comma-dangle": "off",

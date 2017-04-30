@@ -1,9 +1,9 @@
 import React from "react";
 import axios from "axios";
 import {Table, Button, ButtonToolbar, FormControl, Checkbox} from 'react-bootstrap';
+import {Switch} from "react-toolbox/lib/switch";
 import "../CommentList.scss";
 // import Input from "react-toolbox/components/input/Input.d";
-// import { Switch }from "react-toolbox/lib/switch";
 
 class Categories extends React.Component {
 
@@ -137,7 +137,11 @@ class Categories extends React.Component {
       <td className="td-input"><FormControl className="table-input" onChange={this.toggleNewCategoryId}/></td>
       <td className="td-input"><FormControl className="table-input" onChange={this.toggleNewCategoryName}/></td>
       <td>0</td>
-      <td className="td-input"><Checkbox onChange={this.toggleNewCategoryActive}/></td>
+      <td className="td-input"><Switch
+        checked={false}
+        label="Push notifications"
+        onChange={() => {
+        }}/></td>
       <td><Button
         bsStyle="success"
         onClick={() => this.categoryAPI("NEW_CATEGORY")}>Сохранить</Button></td>

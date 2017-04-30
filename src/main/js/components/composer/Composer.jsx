@@ -1,6 +1,5 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import shallowCompare from 'react-addons-shallow-compare';
 import {Row, Col, Jumbotron, Button, ButtonGroup} from 'react-bootstrap';
 import {EditorState, convertToRaw} from 'draft-js';
 import ModeSwitcher from './ModeSwitcher';
@@ -17,10 +16,6 @@ class Composer extends React.Component {
 
     this.onEditorStateUpdate = this._onEditorStateUpdate.bind(this);
     this.handleTitleChange = this._handleTitleChange.bind(this);
-  }
-
-  shouldComponentUpdate(nextProps, nextState) {
-    return shallowCompare(this, nextProps, nextState);
   }
 
   _onEditorStateUpdate(editorState) {

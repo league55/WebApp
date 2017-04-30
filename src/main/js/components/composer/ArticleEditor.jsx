@@ -1,9 +1,8 @@
 import React from 'react';
 import {Row, Col, FormControl, FormGroup} from 'react-bootstrap';
 import {RichUtils, AtomicBlockUtils, Entity} from 'draft-js';
-import Editor, { composeDecorators } from 'draft-js-plugins-editor';
+import Editor, {composeDecorators} from 'draft-js-plugins-editor';
 import createImagePlugin from 'draft-js-image-plugin';
-import createAlignmentPlugin from 'draft-js-alignment-plugin';
 import createFocusPlugin from 'draft-js-focus-plugin';
 import createResizeablePlugin from 'draft-js-resizeable-plugin';
 import createBlockDndPlugin from 'draft-js-drag-n-drop-plugin';
@@ -18,26 +17,21 @@ require("draft-js-image-plugin/lib/plugin.css"); // eslint-disable-line import/n
 const focusPlugin = createFocusPlugin();
 const resizeablePlugin = createResizeablePlugin();
 const blockDndPlugin = createBlockDndPlugin();
-const alignmentPlugin = createAlignmentPlugin();
 
 const decorator = composeDecorators(
   resizeablePlugin.decorator,
-  alignmentPlugin.decorator,
   focusPlugin.decorator,
   blockDndPlugin.decorator
 );
 
-const imagePlugin = createImagePlugin({ decorator });
+const imagePlugin = createImagePlugin({decorator});
 
 const plugins = [
   blockDndPlugin,
   focusPlugin,
   resizeablePlugin,
-  alignmentPlugin,
   imagePlugin
 ];
-
-const { AlignmentTool } = alignmentPlugin;
 
 class ArticleEditor extends React.Component {
 
@@ -114,7 +108,7 @@ class ArticleEditor extends React.Component {
   }
 
   render() {
-    const { editorState } = this.props;
+    const {editorState} = this.props;
     return (<div>
       <Row>
         <Row>
@@ -142,18 +136,19 @@ class ArticleEditor extends React.Component {
             editorState={editorState}
             onToggle={this.toggleInlineStyle}
           />
-          <ImageUploader handleImagesAdd={this.handleImagesAdd}/>
-            <div className="editorStyles.editor" onClick={this.focus}>
+          <ImageUploader handleImagesAdd={this.handleImagesAdd} />
+          <div className="editorStyles.editor EditorStyle" onClick={this.focus}>
             <Editor
               editorState={editorState}
               handleKeyCommand={this.handleKeyCommand}
               onChange={this.onChange}
-              ref={(element) => { this.editor = element; }}
+              ref={(element) => {
+                this.editor = element;
+              }}
               spellCheck
               plugins={plugins}
             />
-              <AlignmentTool />
-            </div>
+          </div>
         </Col>
       </Row>
 

@@ -14,7 +14,7 @@ const config = {
   entry: './index',
   context: SRC,
   resolve: {
-    extensions: ['.js', '.jsx', '.scss', 'css']
+    extensions: ['.js', '.jsx', '.scss', 'css', '.json']
   },
   output: {
     path: DEST,
@@ -44,7 +44,7 @@ const config = {
         test: /\.(?:css|scss)$/,
         loader: ExtractTextPlugin.extract({
             fallback: 'style-loader',
-            use: 'css-loader!sass-loader'
+            use: 'css-loader?sourceMap&modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]!sass-loader!postcss-loader'
           }
         )
       }

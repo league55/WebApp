@@ -1,10 +1,11 @@
 import React from 'react';
-import {Button} from 'react-bootstrap';
+import {routerContext as RouterType} from 'react-router/PropTypes';
+import {Link} from 'react-router';
 import {connect} from 'react-redux';
 import shallowCompare from 'react-addons-shallow-compare';
 import {loadCategories} from "../actions/categories";
 
-const wellStyles = {maxWidth: 200, margin: '133px auto 10px'};
+const wellStyles = {minWidth: 250, margin: '133px auto 10px'};
 
 class SideMenu extends React.Component {
 
@@ -20,21 +21,37 @@ class SideMenu extends React.Component {
 
   render() {
     return (
-      <div className="well sidebar-nav-fixed affix" style={wellStyles}>
-           {this.getSideMenuItems()}
-         <Button bsStyle="primary" bsSize="small" block>Block level button</Button>
-         <Button bsSize="small" block>Block level button</Button>
+      <div className="well sidebar-nav-fixed " style={wellStyles}>
+        <Link
+          to={`/latest`}
+          key={`link.latest`}
+          bsSize="small"
+          className="btn btn-sm btn-primary btn-block">Свежие</Link>
+        {this.getSideMenuItems()}
       </div>
-    );
+    )
+      ;
   }
 
   getSideMenuItems() {
     if (this.props.categories) {
-      return this.props.categories.map((cat) => <Button bsSize="small" block>{cat.categoryName}</Button>);
+      return this.props.categories.map((cat) => {
+        return (
+        <Link
+          to={`/category/${cat.categoryId}`}
+          key={`link.${cat.categoryId}`}
+          bsSize="small"
+          className="btn btn-sm btn-default btn-block">{cat.categoryName}</Link>);
+      });
     }
     return "";
   }
 }
+
+
+SideMenu.contextTypes = {
+  router: RouterType.isRequired
+};
 
 SideMenu.propTypes = {
   categories: React.PropTypes.array,

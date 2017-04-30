@@ -4,6 +4,7 @@ import Dropzone from 'react-dropzone';
 import axios from 'axios';
 import ArticleEditora from './ArticleEditor.css'; // eslint-disable-line
 
+const imgButtonStyle = {left: '40%'};
 
 class ImageUploader extends React.Component {
 
@@ -39,6 +40,7 @@ class ImageUploader extends React.Component {
           bsStyle="primary"
           bsSize="large"
           onClick={this.open}
+          style={imgButtonStyle}
         >Image</Button>
         <Modal show={this.state.showModal} onHide={this.close}>
           <div className="">
