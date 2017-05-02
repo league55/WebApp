@@ -55,6 +55,17 @@ public class ArticleController {
 		return new ResponseEntity<>(articles, HttpStatus.OK);
 	}
 
+	@RequestMapping(value = "/category/{categoryId}", method = RequestMethod.GET)
+	public ResponseEntity listAllCategoryArticles(@PageableDefault(sort = "modifyDate", direction = DESC, value = 1) Pageable pageable,
+		@PathVariable("categoryId") String categoryId) {
+		List<Article> articles = articleDataService.findArticles(categoryId, pageable);
+
+		if (articles.isEmpty()) {
+			return new ResponseEntity(HttpStatus.NOT_FOUND);
+		}
+		return new ResponseEntity<>(articles, HttpStatus.OK);
+	}
+
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public ResponseEntity<?> getArticle(@PathVariable("id") long id) {
 		logger.info("Fetching Article with id {}", id);
@@ -74,7 +85,7 @@ public class ArticleController {
 		User author = userService.findByUsername(wrapper.getUserName());
 
 		article.setAuthor(author);
-		article.setCategoryId(wrapper.categoryId);
+		categoriesService.increaseTimesUsed(article.getCategoryId());
 		articleDataService.saveArticle(article);
 
 		logger.info("Article {} was saved", wrapper.getArticle().getTitle());
@@ -95,6 +106,8 @@ public class ArticleController {
 			newArticle.setAuthor(author);
 			logger.error("Article was not fount, updating existing", id);
 			articleDataService.saveArticle(newArticle);
+			categoriesService.increaseTimesUsed(newArticle.getCategoryId());
+
 			return new ResponseEntity<>(newArticle, HttpStatus.OK);
 		}
 
@@ -132,6 +145,5 @@ public class ArticleController {
 
 		private Article article;
 		private String userName;
-		private String categoryId;
 	}
 }

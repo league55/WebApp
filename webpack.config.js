@@ -44,7 +44,7 @@ const config = {
         test: /\.(?:css|scss)$/,
         loader: ExtractTextPlugin.extract({
             fallback: 'style-loader',
-            use: 'css-loader?sourceMap&modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]!sass-loader!postcss-loader'
+            use: 'css-loader?sourceMap&modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]run!sass-loader!postcss-loader'
           }
         )
       }

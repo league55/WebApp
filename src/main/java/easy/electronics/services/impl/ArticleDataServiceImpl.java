@@ -46,6 +46,10 @@ public class ArticleDataServiceImpl implements ArticleDataService {
 		return articleRepository.findAll(pageable).getContent();
 	}
 
+	public List<Article> findArticles(String categoryId, Pageable pageable) {
+		return articleRepository.findArticlesByCategoryId(categoryId, pageable).getContent();
+	}
+
 	public boolean isArticleExist(Article article) {
 		return findById(article.getArticleId()) != null;
 	}

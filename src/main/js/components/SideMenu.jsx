@@ -35,13 +35,13 @@ class SideMenu extends React.Component {
 
   getSideMenuItems() {
     if (this.props.categories) {
-      return this.props.categories.map((cat) => {
+      return this.props.categories.filter((cat) => cat.isActive).map((cat) => {
         return (
-        <Link
-          to={`/category/${cat.categoryId}`}
-          key={`link.${cat.categoryId}`}
-          bsSize="small"
-          className="btn btn-sm btn-default btn-block">{cat.categoryName}</Link>);
+          <Link
+            to={`/category/${cat.categoryId}`}
+            key={`link.${cat.categoryId}`}
+            bsSize="small"
+            className="btn btn-sm btn-default btn-block">{cat.categoryName}</Link>);
       });
     }
     return "";
@@ -59,7 +59,7 @@ SideMenu.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-  categories: state.categories.filter((cat) => cat.isActive)
+  categories: state.categories
 });
 
 const mapDispatchToProps = (dispatch) => ({

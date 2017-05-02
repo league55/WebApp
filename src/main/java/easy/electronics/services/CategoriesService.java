@@ -8,6 +8,8 @@ public interface CategoriesService {
 
 	Category findById(String id);
 
+	void increaseTimesUsed(String id);
+
 	Boolean switchStatus(String id);
 
 	void updateCategory(Category article);

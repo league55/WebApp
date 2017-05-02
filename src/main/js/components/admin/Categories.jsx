@@ -1,9 +1,8 @@
 import React from "react";
 import axios from "axios";
-import {Table, Button, ButtonToolbar, FormControl, Checkbox} from 'react-bootstrap';
+import {Table, Button, ButtonToolbar, FormControl} from 'react-bootstrap';
 import {Switch} from "react-toolbox/lib/switch";
 import "../CommentList.scss";
-// import Input from "react-toolbox/components/input/Input.d";
 
 class Categories extends React.Component {
 
@@ -59,7 +58,7 @@ class Categories extends React.Component {
         break;
     }
     this.loadCategories();
-    this.forceUpdate();
+    // this.forceUpdate();
   }
 
   toggleNewCategoryActive() {
@@ -84,20 +83,17 @@ class Categories extends React.Component {
       );
   }
 
-  // {/*<td><Switch checked={cat.isActive} onChange={axios.post(`/categories/mode/${cat.categoryId}`, {})}/></td>*/}
-
   getCatRow(cat) {
     return (<tr key={cat.categoryName}>
       <td><Button bsStyle="success" bsSize="xs">+</Button></td>
       <td>{cat.categoryId}</td>
       <td>{cat.categoryName}</td>
       <td>{cat.timesUsed}</td>
-      <td><Checkbox checked={cat.isActive}/></td>
+      <td><Switch
+        checked={cat.isActive}
+        onChange={() => this.categoryAPI("TOGGLE_CATEGORY", cat.categoryId)}/>
+      </td>
       <td><ButtonToolbar>
-        <Button
-          bsStyle="warning"
-          onClick={() => this.categoryAPI("TOGGLE_CATEGORY", cat.categoryId)}>disable
-        </Button>
         <Button bsStyle="danger" onClick={() => this.categoryAPI("DELETE_CATEGORY", cat.categoryId)}>delete</Button>
       </ButtonToolbar></td>
     </tr>);
@@ -138,10 +134,8 @@ class Categories extends React.Component {
       <td className="td-input"><FormControl className="table-input" onChange={this.toggleNewCategoryName}/></td>
       <td>0</td>
       <td className="td-input"><Switch
-        checked={false}
-        label="Push notifications"
-        onChange={() => {
-        }}/></td>
+        checked={this.state.newCategory.isActive}
+        onChange={this.toggleNewCategoryActive}/></td>
       <td><Button
         bsStyle="success"
         onClick={() => this.categoryAPI("NEW_CATEGORY")}>Сохранить</Button></td>

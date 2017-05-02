@@ -23,6 +23,13 @@ public class CategoriesServiceImpl implements CategoriesService {
 	}
 
 	@Override
+	public void increaseTimesUsed(String id) {
+		Category category = repository.findOne(id);
+		category.setTimesUsed(category.getTimesUsed() + 1);
+		updateCategory(category);
+	}
+
+	@Override
 	public Boolean switchStatus(String id) {
 		Category category = repository.findOne(id);
 		category.setIsActive(!category.getIsActive());

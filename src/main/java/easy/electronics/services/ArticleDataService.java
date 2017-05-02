@@ -22,5 +22,7 @@ public interface ArticleDataService {
 
 	List<Article> findArticles(Pageable pageable);
 
+	List<Article> findArticles(String categoryId, Pageable pageable);
+
 	boolean isArticleExist(Article user);
 }

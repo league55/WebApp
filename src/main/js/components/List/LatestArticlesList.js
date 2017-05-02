@@ -22,23 +22,28 @@ class LatestArticlesList extends React.Component {
   }
 
   componentDidMount() {
-    if (this.props.articles.length === 0) {
-      this.props.dispatch(loadPageArticles(this.props.params.page));
+    const articles = this.props.articles;
+    const category = this.props.params.category ? this.props.params.category : 'latest';
+
+    if (!articles.get(category) || articles.get(category).length === 0) {
+      this.props.dispatch(loadPageArticles(0, this.props.params.category));
     }
   }
 
   handleRefreshComments() {
-    this.props.dispatch(loadPageArticles(0));
+    this.props.dispatch(loadPageArticles(0, this.props.params.category));
   }
 
   render() {
+    const articles = this.props.articles;
+    const category = this.props.params.category ? this.props.params.category : 'latest';
     return (
       <div className="comments">
         <h1>Свежие</h1>
         <button className="btn btn-default" onClick={() => this.handleRefreshComments()}>Refresh</button>
-        { !this.props.articles || this.props.articles.length === 0
+        { !articles || !articles.get(category) || articles.get(category).length === 0
           ? <p> Пока ничего нет :( Стань первым ? </p>
-          : this.props.articles.map((each, i) => LatestArticlesList.getArticlePreview(each, i)) }
+          : articles.get(category).map((each, i) => LatestArticlesList.getArticlePreview(each, i)) }
 
         {this.getPaginationBlock()}
       </div>
@@ -69,21 +74,29 @@ class LatestArticlesList extends React.Component {
   }
 
   getPaginationBlock() {
-    return <PaginationBlock clickMore={() => this.props.dispatch(loadPageArticles(this.props.articles.length))}/>;
+    const category = this.props.params.category;
+    const pseudoCat = category || 'latest';
+    const page = this.props.articles.get(pseudoCat) ? this.props.articles.get(pseudoCat).length : 0;
+    return (<PaginationBlock
+      clickMore={() => {
+        this.props.dispatch(loadPageArticles(page, category));
+        this.forceUpdate();
+      }}/>);
   }
 
 }
 
 
 LatestArticlesList.propTypes = {
-  articles: React.PropTypes.array,
+  articles: React.PropTypes.object,
   params: React.PropTypes.object,
   dispatch: React.PropTypes.func
 };
 
 function mapStateToProps(state) {
   return {
-    articles: state.articles
+    articles: state.articles,
+    categories: state.categories
   };
 }
 

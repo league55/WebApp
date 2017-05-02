@@ -21,9 +21,8 @@ const App = () => (
       <Col md={9} xs={12}>
         <div className="container-fluid">
           <Match exactly pattern="/" component={LatestArticlesList}/>
-          <Match pattern="/latest/:page" component={LatestArticlesList}/>
-          <Match pattern="/category/:category/:page" component={LatestArticlesList}/>
           <Match pattern="/latest" component={LatestArticlesList}/>
+          <Match pattern="/category/:category" component={LatestArticlesList}/>
           <MatchWhenAuthorized pattern="/addArticle" component={Composer}/>
           <MatchWhenAuthorized pattern="/user" component={LatestArticlesList}/>
           <MatchWhenAuthorized pattern="/user/all" component={UsersArticlesList}/>

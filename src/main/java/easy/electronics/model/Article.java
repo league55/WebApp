@@ -56,7 +56,7 @@ public class Article implements Serializable {
 	@Column(name = "MODIFY_DATE")
 	private Date modifyDate;
 
-	@Column(name = "CONTENT", nullable = false, columnDefinition = "JSON")
+	@Column(name = "CONTENT", nullable = false, columnDefinition = "LONGTEXT")
 	private String content;
 
 	@ManyToOne(fetch = FetchType.LAZY)
