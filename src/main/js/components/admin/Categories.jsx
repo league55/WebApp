@@ -1,8 +1,8 @@
 import React from "react";
 import axios from "axios";
 import {Table, Button, ButtonToolbar, FormControl} from 'react-bootstrap';
-import {Switch} from "react-toolbox/lib/switch";
-import "../CommentList.scss";
+import Switch from "react-toolbox/lib/switch";
+import "../CommentList.css";
 
 class Categories extends React.Component {
 

@@ -1,11 +1,8 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import {Row, Col, Jumbotron, Button, ButtonGroup} from 'react-bootstrap';
+import {Row, Col, Jumbotron, Button, ButtonGroup, FormControl, FormGroup, Form} from 'react-bootstrap';
 import {EditorState, convertToRaw} from 'draft-js';
-import ModeSwitcher from './ModeSwitcher';
 import ArticleEditor from './ArticleEditor';
-import Preview from './Preview';
-import {EDITING, PREVIEW} from '../../constants/actionTypes';
 import {saveAndSwitchMode, saveArticle} from '../../actions/articles';
 import {loadCategories} from "../../actions/categories";
 
@@ -14,7 +11,9 @@ class Composer extends React.Component {
   constructor(props) {
     super(props);
     this.state = this.state ? this.state : {editorState: EditorState.createEmpty()};
+    this.getCategories = this._getCategories.bind(this);
 
+    this.getValidationState = this._getValidationState.bind(this);
     this.onEditorStateUpdate = this._onEditorStateUpdate.bind(this);
     this.handleTitleChange = this._handleTitleChange.bind(this);
     this.handleCategoryIdChange = this._handleCategoryIdChange.bind(this);
@@ -32,6 +31,14 @@ class Composer extends React.Component {
     this.setState(Object.assign(this.state, {categoryId: categoryId})); // eslint-disable-line
   }
 
+  _getValidationState() {
+    if (!this.props.title) return null;
+    const length = this.props.title.length;
+    if (length > 10) return 'success';
+    else if (length > 5) return 'warning';
+    return 'error';
+  }
+
   render() {
     const onClickSave = () => {
       this.props.handleClickSave(Object.assign(this.state, {author: {userName: this.props.userName}}));
@@ -43,6 +50,28 @@ class Composer extends React.Component {
       <Row>
         <Col md={12}>
           <Jumbotron>
+            <Row>
+              <Form horisontal>
+                <FormGroup
+                  controlId="formBasicText"
+                  validationState={this.getValidationState()}
+                >
+                  <FormControl
+                    type="text"
+                    value={this.props.title}
+                    placeholder="Заголовок"
+                    onChange={this.handleTitleChange}
+                  />
+                  <FormControl.Feedback />
+                  <FormControl
+                    componentClass="select"
+                    placeholder="Категория"
+                    onChange={this.handleCategoryIdChange}
+                    value={this.props.categoryId}
+                  >{this.getCategories()}</FormControl>
+                </FormGroup>
+              </Form>
+            </Row>
             <ArticleEditor
               editorState={this.state.editorState}
               onEditorStateUpdate={this.onEditorStateUpdate}
@@ -68,17 +97,35 @@ class Composer extends React.Component {
       </Row>
     );
   }
+
+  _getCategories() {
+    if (!this.props.categories) {
+      this.props.loadCategories();
+    }
+    else {
+      return this.props.categories.map(cat => {
+        return <option value={cat.categoryId} key={`select.option.${cat.categoryId}`}>{cat.categoryName}</option>;
+      });
+    }
+    return {};
+  }
 }
 
 
 Composer.propTypes = {
-  handleSelect: React.PropTypes.func,
-  handleClick: React.PropTypes.func,
-  userName: React.PropTypes.string
+  handleClickSave: React.PropTypes.func,
+  handleClickPost: React.PropTypes.func,
+  loadCategories: React.PropTypes.func,
+  categories: React.PropTypes.array,
+  userName: React.PropTypes.string,
+  title: React.PropTypes.string,
+  categoryId: React.PropTypes.string,
 };
 
 const mapStateToProps = (state) => ({
-  userName: state.auth.userName
+  userName: state.auth.userName,
+  categories: state.categories
+
 });
 
 const mapDispatchToProps = (dispatch) => ({

@@ -9,7 +9,7 @@ import createResizeablePlugin from 'draft-js-resizeable-plugin';
 import createBlockDndPlugin from 'draft-js-drag-n-drop-plugin';
 import ImageUploader from '../composer/ImageUploader'; // eslint-disable-line
 import ArticleEditora from '../composer/ArticleEditor.css'; // eslint-disable-line
-import EditorStyle from '../../../css/Editor.scss'; // eslint-disable-line
+import EditorStyle from '../../../css/Editor.css'; // eslint-disable-line
 
 require("draft-js-image-plugin/lib/plugin.css"); // eslint-disable-line import/no-unresolved
 

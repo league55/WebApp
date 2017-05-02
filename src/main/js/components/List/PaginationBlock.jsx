@@ -1,6 +1,6 @@
 import React from 'react';
 import {ButtonGroup, Button, Row, Col} from "react-bootstrap";
-import "./Latest.scss";
+import "./Latest.css";
 
 class PaginationBlock extends React.Component {
 

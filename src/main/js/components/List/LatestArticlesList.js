@@ -6,7 +6,7 @@ import {Row, Col, Label} from 'react-bootstrap';
 import {EditorState, convertFromRaw} from 'draft-js';
 import {loadPageArticles} from '../../actions/actions';
 
-import '../CommentList.scss';
+import '../CommentList.css';
 import RichEditor from './RichEditor';
 import PaginationBlock from "./PaginationBlock";
 

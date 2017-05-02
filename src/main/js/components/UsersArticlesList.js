@@ -7,7 +7,7 @@ import Editor from 'draft-js-plugins-editor';
 import {EditorState, convertFromRaw} from 'draft-js';
 import {refreshArticles} from '../actions/actions';
 
-import './CommentList.scss';
+import './CommentList.css';
 
 class CommentList extends React.Component {
 
