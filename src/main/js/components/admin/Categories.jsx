@@ -1,8 +1,8 @@
 import React from "react";
 import axios from "axios";
-import {Table, Button, ButtonToolbar, FormControl} from 'react-bootstrap';
-import Switch from "react-toolbox/lib/switch";
-import "../CommentList.css";
+import {Table, Button, ButtonToolbar, FormControl, Checkbox} from 'react-bootstrap';
+import "../CommentList.scss";
+import {DELETE_CATEGORY, NEW_CATEGORY, TOGGLE_CATEGORY} from "../../constants/appConstants";
 
 class Categories extends React.Component {
 
@@ -45,20 +45,27 @@ class Categories extends React.Component {
 
   categoryAPI(action, id) {
     switch (action) {
-      case "NEW_CATEGORY":
-        axios.post('/categories', this.state.newCategory);
+      case NEW_CATEGORY:
+        axios.post('/categories', this.state.newCategory)
+          .then(() => {
+            this.loadCategories();
+          });
         break;
-      case "DELETE_CATEGORY":
-        axios.delete(`/categories/${id}`);
+      case DELETE_CATEGORY:
+        axios.delete(`/categories/${id}`)
+          .then(() => {
+            this.loadCategories();
+          });
         break;
-      case "TOGGLE_CATEGORY":
-        axios.post(`/categories/mode/${id}`);
+      case TOGGLE_CATEGORY:
+        axios.post(`/categories/mode/${id}`)
+          .then(() => {
+            this.loadCategories();
+          });
         break;
       default:
         break;
     }
-    this.loadCategories();
-    // this.forceUpdate();
   }
 
   toggleNewCategoryActive() {
@@ -89,12 +96,9 @@ class Categories extends React.Component {
       <td>{cat.categoryId}</td>
       <td>{cat.categoryName}</td>
       <td>{cat.timesUsed}</td>
-      <td><Switch
-        checked={cat.isActive}
-        onChange={() => this.categoryAPI("TOGGLE_CATEGORY", cat.categoryId)}/>
-      </td>
+      <td><Checkbox onChange={() => this.categoryAPI(TOGGLE_CATEGORY, cat.categoryId)} checked={cat.isActive}/></td>
       <td><ButtonToolbar>
-        <Button bsStyle="danger" onClick={() => this.categoryAPI("DELETE_CATEGORY", cat.categoryId)}>delete</Button>
+        <Button bsStyle="danger" onClick={() => this.categoryAPI(DELETE_CATEGORY, cat.categoryId)}>delete</Button>
       </ButtonToolbar></td>
     </tr>);
   }
@@ -133,12 +137,10 @@ class Categories extends React.Component {
       <td className="td-input"><FormControl className="table-input" onChange={this.toggleNewCategoryId}/></td>
       <td className="td-input"><FormControl className="table-input" onChange={this.toggleNewCategoryName}/></td>
       <td>0</td>
-      <td className="td-input"><Switch
-        checked={this.state.newCategory.isActive}
-        onChange={this.toggleNewCategoryActive}/></td>
+      <td className="td-input"><Checkbox onChange={this.toggleNewCategoryActive}/></td>
       <td><Button
         bsStyle="success"
-        onClick={() => this.categoryAPI("NEW_CATEGORY")}>Сохранить</Button></td>
+        onClick={() => this.categoryAPI(NEW_CATEGORY)}>Сохранить</Button></td>
     </tr>);
   }
 

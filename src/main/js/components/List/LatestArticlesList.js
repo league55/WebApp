@@ -1,20 +1,22 @@
 import React from 'react';
-import {Link} from 'react-router';
 import {connect} from 'react-redux';
 import shallowCompare from 'react-addons-shallow-compare';
-import {Row, Col, Label} from 'react-bootstrap';
+import {Row, Col, Label, Button} from 'react-bootstrap';
 import {EditorState, convertFromRaw} from 'draft-js';
 import {loadPageArticles} from '../../actions/actions';
 
-import '../CommentList.css';
+import '../CommentList.scss';
 import RichEditor from './RichEditor';
 import PaginationBlock from "./PaginationBlock";
+import {deleteArticle} from "../../actions/articles";
+import {LATEST} from "../../constants/actionTypes";
 
 class LatestArticlesList extends React.Component {
 
   constructor() {
     super();
     this.getPaginationBlock = this.getPaginationBlock.bind(this);
+    this.getArticlePreview = this.getArticlePreview.bind(this);
   }
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -23,34 +25,34 @@ class LatestArticlesList extends React.Component {
 
   componentDidMount() {
     const articles = this.props.articles;
-    const category = this.props.params.category ? this.props.params.category : 'latest';
+    const category = this.props.params.category ? this.props.params.category : LATEST;
 
     if (!articles.get(category) || articles.get(category).length === 0) {
-      this.props.dispatch(loadPageArticles(0, this.props.params.category));
+      this.props.loadArticles(0, this.props.params.category);
     }
   }
 
   handleRefreshComments() {
-    this.props.dispatch(loadPageArticles(0, this.props.params.category));
+    this.props.loadArticles(0, this.props.params.category);
   }
 
   render() {
     const articles = this.props.articles;
-    const category = this.props.params.category ? this.props.params.category : 'latest';
+    const category = this.props.params.category ? this.props.params.category : LATEST;
     return (
       <div className="comments">
         <h1>Свежие</h1>
         <button className="btn btn-default" onClick={() => this.handleRefreshComments()}>Refresh</button>
         { !articles || !articles.get(category) || articles.get(category).length === 0
           ? <p> Пока ничего нет :( Стань первым ? </p>
-          : articles.get(category).map((each, i) => LatestArticlesList.getArticlePreview(each, i)) }
+          : articles.get(category).map((each, i) => this.getArticlePreview(each, i)) }
 
         {this.getPaginationBlock()}
       </div>
     );
   }
 
-  static getArticlePreview(each) {
+  getArticlePreview(each) {
     return (<div className="message well" key={each.modifyDate + each.articleId}>
       <Row>
         <Col md={8} mdOffset={1}>
@@ -65,21 +67,22 @@ class LatestArticlesList extends React.Component {
         key={`editor${each.modifyDate}${each.articleId}`}
         editorState={EditorState.createWithContent(convertFromRaw(each.content))}
         readOnly/>
-      <Link
-        to={`/article/${each.articleId}`}
+      {this.props.auth.roles.includes("ROLE_ADMIN")
+      && <Button
+        onClick={() => this.props.deleteArticle(each)}
         key={`${each.modifyDate}_LINK`}
-        bsStyle="info"
-        className="btn btn-info">Подробнее</Link>
+        bsStyle="danger"
+      >Удалить</Button>}
     </div>);
   }
 
   getPaginationBlock() {
     const category = this.props.params.category;
-    const pseudoCat = category || 'latest';
+    const pseudoCat = category || LATEST;
     const page = this.props.articles.get(pseudoCat) ? this.props.articles.get(pseudoCat).length : 0;
     return (<PaginationBlock
       clickMore={() => {
-        this.props.dispatch(loadPageArticles(page, category));
+        this.props.loadArticles(page, category);
         this.forceUpdate();
       }}/>);
   }
@@ -88,16 +91,29 @@ class LatestArticlesList extends React.Component {
 
 
 LatestArticlesList.propTypes = {
+  auth: React.PropTypes.object,
   articles: React.PropTypes.object,
   params: React.PropTypes.object,
-  dispatch: React.PropTypes.func
+  deleteArticle: React.PropTypes.func,
+  loadArticles: React.PropTypes.func
 };
 
 function mapStateToProps(state) {
   return {
     articles: state.articles,
-    categories: state.categories
+    categories: state.categories,
+    auth: state.auth
+  };
+}
+function mapDispatchToProps(dispatch) {
+  return {
+    deleteArticle(article) {
+      dispatch(deleteArticle(article));
+    },
+    loadArticles(article) {
+      dispatch(loadPageArticles(article));
+    }
   };
 }
 
-export default connect(mapStateToProps)(LatestArticlesList);
+export default connect(mapStateToProps, mapDispatchToProps)(LatestArticlesList);

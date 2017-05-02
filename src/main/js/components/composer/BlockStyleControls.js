@@ -16,7 +16,7 @@ const BLOCK_TYPES = [
 
 export const BlockStyleControls = (props) => {
   const {editorState} = props;
-  const selection = editorState.getSelection();
+  const selection = editorState.getSelection ? editorState.getSelection() : editorState.getSelectionAfter();
   const blockType = editorState
     .getCurrentContent()
     .getBlockForKey(selection.getStartKey())

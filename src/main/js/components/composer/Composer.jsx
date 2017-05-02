@@ -1,16 +1,20 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {Row, Col, Jumbotron, Button, ButtonGroup, FormControl, FormGroup, Form} from 'react-bootstrap';
-import {EditorState, convertToRaw} from 'draft-js';
+import {EditorState, convertToRaw, convertFromRaw} from 'draft-js';
 import ArticleEditor from './ArticleEditor';
-import {saveAndSwitchMode, saveArticle} from '../../actions/articles';
+import {postArticle, saveArticle} from '../../actions/articles';
 import {loadCategories} from "../../actions/categories";
+import {FINISHED, IN_PROGRESS} from "../../constants/appConstants";
 
 class Composer extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = this.state ? this.state : {editorState: EditorState.createEmpty()};
+    const savedState = this.props.savedIncompleteState ?
+      EditorState.createWithContent(convertFromRaw(this.props.savedIncompleteState.content))
+      : EditorState.createEmpty();
+    this.state = this.state ? this.state : {editorState: savedState};
     this.getCategories = this._getCategories.bind(this);
 
     this.getValidationState = this._getValidationState.bind(this);
@@ -23,12 +27,12 @@ class Composer extends React.Component {
     this.setState(Object.assign(this.state, {editorState: editorState})); // eslint-disable-line
   }
 
-  _handleTitleChange(title) {
-    this.setState(Object.assign(this.state, {title: title})); // eslint-disable-line
+  _handleTitleChange(e) {
+    this.setState(Object.assign(this.state, {title: e.target.value})); // eslint-disable-line
   }
 
-  _handleCategoryIdChange(categoryId) {
-    this.setState(Object.assign(this.state, {categoryId: categoryId})); // eslint-disable-line
+  _handleCategoryIdChange(e) {
+    this.setState(Object.assign(this.state, {categoryId: e.target.value})); // eslint-disable-line
   }
 
   _getValidationState() {
@@ -65,7 +69,6 @@ class Composer extends React.Component {
                   <FormControl.Feedback />
                   <FormControl
                     componentClass="select"
-                    placeholder="Категория"
                     onChange={this.handleCategoryIdChange}
                     value={this.props.categoryId}
                   >{this.getCategories()}</FormControl>
@@ -103,9 +106,10 @@ class Composer extends React.Component {
       this.props.loadCategories();
     }
     else {
-      return this.props.categories.map(cat => {
+      const realCategories = this.props.categories.map(cat => {
         return <option value={cat.categoryId} key={`select.option.${cat.categoryId}`}>{cat.categoryName}</option>;
       });
+      return [<option value="latest">Выберите категорию</option>].concat(realCategories);
     }
     return {};
   }
@@ -115,6 +119,7 @@ class Composer extends React.Component {
 Composer.propTypes = {
   handleClickSave: React.PropTypes.func,
   handleClickPost: React.PropTypes.func,
+  savedIncompleteState: React.PropTypes.object,
   loadCategories: React.PropTypes.func,
   categories: React.PropTypes.array,
   userName: React.PropTypes.string,
@@ -124,23 +129,21 @@ Composer.propTypes = {
 
 const mapStateToProps = (state) => ({
   userName: state.auth.userName,
-  categories: state.categories
+  categories: state.categories,
+  savedIncompleteState: state.articles.get(IN_PROGRESS)
 
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  handleSelect(mode) {
-    dispatch(saveAndSwitchMode(mode));
-  },
   handleClickPost(article) {
     const contentState = article.editorState.getCurrentContent();
     const articleBody = {
       title: article.title,
       categoryId: article.categoryId,
       content: convertToRaw(contentState),
-      status: "FINISHED"
+      status: FINISHED
     };
-    dispatch(saveArticle(articleBody, article.author));
+    dispatch(postArticle(articleBody, article.author));
   },
   handleClickSave(article) {
     const contentState = article.editorState.getCurrentContent();
@@ -148,7 +151,7 @@ const mapDispatchToProps = (dispatch) => ({
       title: article.title,
       categoryId: article.categoryId,
       content: convertToRaw(contentState),
-      status: "IN_PROGRESS"
+      status: IN_PROGRESS
     };
     dispatch(saveArticle(articleBody, article.author));
   },

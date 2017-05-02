@@ -8,7 +8,7 @@ import createResizeablePlugin from 'draft-js-resizeable-plugin';
 import createBlockDndPlugin from 'draft-js-drag-n-drop-plugin';
 import ImageUploader from './ImageUploader'; // eslint-disable-line
 import './ArticleEditor.css'; // eslint-disable-line
-import '../../../css/Editor.css'; // eslint-disable-line
+import '../../../css/Editor.scss'; // eslint-disable-line
 import {InlineStyleControls} from './InlineStyleControls';
 import {BlockStyleControls} from './BlockStyleControls';
 

@@ -20,7 +20,7 @@ class ActionRegistry {
     }
 
     switch (properties.action) {
-      case "saveArticle" :
+      case "postArticle" :
         return {
           onClick: callWithPreventDefault.bind(null, actions.saveArticle)
         };

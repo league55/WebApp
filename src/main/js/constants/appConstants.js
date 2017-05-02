@@ -1,0 +1,6 @@
+export const NEW_CATEGORY = "NEW_CATEGORY";
+export const DELETE_CATEGORY = "DELETE_CATEGORY";
+export const TOGGLE_CATEGORY = "TOGGLE_CATEGORY";
+
+export const FINISHED = "FINISHED";
+export const IN_PROGRESS = "IN_PROGRESS";

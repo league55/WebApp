@@ -7,6 +7,10 @@ class ArticlesDataApi {
     const url = article.id ? `/article/${article.id}` : '/article';
     return axios.post(url, {article: copy, userName: author.userName});
   }
+
+  static deleteArticle(articleId) {
+    return axios.delete(`/article/${articleId}`);
+  }
 }
 
 export default ArticlesDataApi;
