@@ -18,7 +18,7 @@ class ImageUploader extends React.Component {
 
   _close() {
     this.props.handleImagesAdd(this.state.files);
-    this.setState(Object.assign({}, this.state, {showModal: false}));
+    this.setState(Object.assign({}, this.state, {showModal: false, files: []}));
   }
 
   _open() {

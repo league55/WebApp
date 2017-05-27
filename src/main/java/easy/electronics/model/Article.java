@@ -18,6 +18,8 @@ import javax.persistence.TemporalType;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.hibernate.search.annotations.Field;
+import org.hibernate.search.annotations.Indexed;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -28,6 +30,7 @@ import lombok.Setter;
 
 @NoArgsConstructor
 @Entity
+@Indexed
 @Table(name = "ARTICLES")
 @Getter @Setter
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
@@ -40,6 +43,7 @@ public class Article implements Serializable {
 
 	@NotEmpty
 	@Column(name = "TITLE", nullable = false)
+	@Field
 	private String title;
 
 	@NotEmpty
@@ -56,6 +60,7 @@ public class Article implements Serializable {
 	@Column(name = "MODIFY_DATE")
 	private Date modifyDate;
 
+	@Field
 	@Column(name = "CONTENT", nullable = false, columnDefinition = "LONGTEXT")
 	private String content;
 

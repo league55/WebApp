@@ -17,6 +17,7 @@ class LatestArticlesList extends React.Component {
     super();
     this.getPaginationBlock = this.getPaginationBlock.bind(this);
     this.getArticlePreview = this.getArticlePreview.bind(this);
+    this.getPageName = this.getPageName.bind(this);
   }
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -41,8 +42,8 @@ class LatestArticlesList extends React.Component {
     const category = this.props.params.category ? this.props.params.category : LATEST;
     return (
       <div className="comments">
-        <h1>Свежие</h1>
-        <button className="btn btn-default" onClick={() => this.handleRefreshComments()}>Refresh</button>
+        <h1>{this.getPageName(category)}</h1>
+        <button className="btn btn-default" onClick={() => this.handleRefreshComments()}>Обновить</button>
         { !articles || !articles.get(category) || articles.get(category).length === 0
           ? <p> Пока ничего нет :( Стань первым ? </p>
           : articles.get(category).map((each, i) => this.getArticlePreview(each, i)) }
@@ -87,12 +88,21 @@ class LatestArticlesList extends React.Component {
       }}/>);
   }
 
+  getPageName(categoryId) {
+    if (!categoryId || categoryId === "latest") {
+      return "Свежие";
+    }
+    const currentCategory = this.props.categories.find(cat => cat.categoryId === categoryId);
+    return currentCategory.categoryName;
+  }
+
 }
 
 
 LatestArticlesList.propTypes = {
   auth: React.PropTypes.object,
   articles: React.PropTypes.object,
+  categories: React.PropTypes.array,
   params: React.PropTypes.object,
   deleteArticle: React.PropTypes.func,
   loadArticles: React.PropTypes.func
@@ -110,8 +120,8 @@ function mapDispatchToProps(dispatch) {
     deleteArticle(article) {
       dispatch(deleteArticle(article));
     },
-    loadArticles(article) {
-      dispatch(loadPageArticles(article));
+    loadArticles(article, category) {
+      dispatch(loadPageArticles(article, category));
     }
   };
 }

@@ -1,18 +1,30 @@
 /* eslint jsx-a11y/href-no-hash:"off" */
 
 import React from 'react';
+import {FormControl} from 'react-bootstrap';
 import {Link} from 'react-router';
 import {routerContext as RouterType} from 'react-router/PropTypes';
 import shallowCompare from 'react-addons-shallow-compare';
 import {connect} from 'react-redux';
 import axios from 'axios';
+import "../../css/Editor.scss";
 
 import {loggedOut} from '../actions/actions';
 
-class Navigation extends React.Component {
+const searchStyle = {
+  paddingTop: "10px",
+  color: "white"
+};
 
+class Navigation extends React.Component {
   shouldComponentUpdate(nextProps, nextState) {
     return shallowCompare(this, nextProps, nextState);
+  }
+
+  _handleKeyPress(e) {
+    if (e.key === 'Enter') {
+      this.context.router.transitionTo(`/find/${e.target.value}`);
+    }
   }
 
   handleSignOut() {
@@ -66,6 +78,12 @@ class Navigation extends React.Component {
       : null;
   }
 
+  searchInput() {
+    return (<li style={searchStyle}>
+      <FormControl type="text" placeholder="Поиск" onKeyPress={(e) => this._handleKeyPress(e)}/>
+    </li>);
+  }
+
   authLink() {
     if (!this.props.auth.signedIn) {
       return <Link to="/signin">Sign In</Link>;
@@ -100,6 +118,7 @@ class Navigation extends React.Component {
           </div>
           <div id="navbar" className="collapse navbar-right navbar-collapse">
             <ul className="nav navbar-nav">
+              {this.searchInput()}
               {this.adminMenu()}
               <li><Link to="/">Home</Link></li>
               {this.userMenu()}

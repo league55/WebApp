@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -23,6 +24,7 @@ import easy.electronics.controllers.errors.CustomErrorType;
 import easy.electronics.model.Article;
 import easy.electronics.model.User;
 import easy.electronics.services.ArticleDataService;
+import easy.electronics.services.ArticleSearchService;
 import easy.electronics.services.CategoriesService;
 import easy.electronics.services.UserService;
 import lombok.Data;
@@ -41,6 +43,9 @@ public class ArticleController {
 	private ArticleDataService articleDataService;
 
 	@Autowired
+	private ArticleSearchService articleSearchService;
+
+	@Autowired
 	private UserService userService;
 
 	@Autowired
@@ -51,6 +56,15 @@ public class ArticleController {
 		List<Article> articles = articleDataService.findArticles(pageable);
 		if (articles.isEmpty()) {
 			return new ResponseEntity(HttpStatus.NOT_FOUND);
+		}
+		return new ResponseEntity<>(articles, HttpStatus.OK);
+	}
+
+	@RequestMapping(value = "/search", method = RequestMethod.GET)
+	public ResponseEntity searchArticles(@RequestParam("searchQuery") String searchQuery) {
+		List<Article> articles = articleSearchService.search(searchQuery);
+		if (articles.isEmpty()) {
+			return new ResponseEntity(HttpStatus.NO_CONTENT);
 		}
 		return new ResponseEntity<>(articles, HttpStatus.OK);
 	}

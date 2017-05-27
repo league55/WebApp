@@ -7,7 +7,7 @@ import SideMenu from '../components/SideMenu';
 import MatchWhenAuthorized from './MatchWhenAuthorized';
 import {
   LatestArticlesList, UsersArticlesList, Errors, Navigation,
-  SignIn, Composer, Categories
+  SignIn, Composer, Categories, SearchedArticles
 } from '../components';
 
 const App = () => (
@@ -23,6 +23,7 @@ const App = () => (
           <Match exactly pattern="/" component={LatestArticlesList}/>
           <Match pattern="/latest" component={LatestArticlesList}/>
           <Match pattern="/category/:category" component={LatestArticlesList}/>
+          <Match pattern="/find/:searchQuery" component={SearchedArticles}/>
           <MatchWhenAuthorized pattern="/addArticle" component={Composer}/>
           <MatchWhenAuthorized pattern="/user" component={LatestArticlesList}/>
           <MatchWhenAuthorized pattern="/user/all" component={UsersArticlesList}/>

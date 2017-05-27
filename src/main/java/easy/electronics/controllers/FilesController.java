@@ -21,7 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 import easy.electronics.services.FileService;
 
 @RestController
-@RequestMapping("/static")
+@RequestMapping({"**/static", "/category/static"})
 public class FilesController {
 	private static final Logger logger = LoggerFactory.getLogger(ArticleController.class);
 
