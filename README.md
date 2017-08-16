@@ -1,13 +1,8 @@
-# spring-react-boilerplate
+# Web-app based on modern technologies like Java enterprice stack on back and reactjs on front
+## based on spring-react-boilerplate
+Web site (a kind of studing portal about electronics)
 
-An example application that uses a Spring Java backend with a React
-frontend.
-
-## Another Boilerplate?
-
-Yes, but with Java. It's inspired by the
-[spring-react-isomorphic](https://github.com/sdeleuze/spring-react-isomorphic)
-project, but uses:
+ uses:
 
 - [Yarn](https://yarnpkg.com/) for installing Node modules.
 - [Webpack](https://github.com/webpack/webpack) to bundle all the
@@ -26,9 +21,6 @@ project, but uses:
 - Type checking with [Flow](https://flowtype.org/).
 
 ## Other Goodies
-
-You also get:
-
 - [Project Lombok](https://projectlombok.org/) to cut down the Java
   boilerplate
 - [Jackson](https://github.com/FasterXML/jackson) to serialize model data
@@ -36,10 +28,6 @@ You also get:
   [this OpenJDK thread on the subject](http://mail.openjdk.java.net/pipermail/nashorn-dev/2013-September/002006.html),
   but summary is Nashorn won't (and actually can't) string-ify POJOs via
   `JSON.stringify`, meaning it can't be used to serialise the Redux state.
-
-## Caveats
-
-This isn't necessarily the best way to write a React application. Pull requests welcome!
 
 ## Running the code
 
@@ -49,32 +37,3 @@ a minimum version of `1.8.0_65`. Older versions have a bug that makes rendering
 brutally slow.
 
 Run Webpack in hot-module reloading mode with: `npm start`.
-
-## Conventions
-
-Controllers that render views are suffixed with `Controller`. REST endpoints are
-suffixed with `Resource`, and handle requests under `/api`.
-
-## Testing the Webpack bundle
-
-In order to preempt runtime errors with Nashorn loading the bundle, a test
-script is executed by Maven during the `test-compile` phase, located at
-`src/test/js/test_bundle.js`. If this script fails, you can diagnose the problem
-by:
-
-* Running a debug build with `npm run debug`. This runs Webpack in a production
-  mode but without uglification.
-* Run the script again: `jjs src/test/js/test_bundle.js`
-* Look at the line in the bundle from the stacktrace and figure out the problem.
-
-It's easy to create a bundle that's broken on the server by including code that
-expects a DOM - and that includes the Webpack style loader. This is the root of
-most problems. You should note that server-side rendering *does not* require a
-DOM - which is why `src/main/resources/static/js/polyfill.js` doesn't provide
-any `window` or `document` stubs.
-
-## The `render` function
-
-We implement a customer render function for Spring to call. The source code
-is in `render.es6.js`, and is compiled to ES5 syntax during the Maven
-build.
